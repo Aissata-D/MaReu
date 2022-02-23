@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_mail_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:padding="8dp"
+    tools:context=".ui.AddMailFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-38dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meetting_place"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+
+
+        android:layout_marginTop="40dp"
+
+        android:hint="Lieu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meetting_subject"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+
+        android:hint="Sujet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meetting_place">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meetting_date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="24dp"
+        android:hint="Choisir une date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meetting_subject">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meetting_time"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+
+        android:hint="Choisir une heure"
+        app:layout_constraintBottom_toBottomOf="@+id/meetting_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/meetting_date"
+        app:layout_constraintTop_toTopOf="@+id/meetting_date">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meetting_time1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/list_participant"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:layout_margin="16dp"
+
+
+        android:hint="E-mail of participant"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meetting_time">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_participant_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="244dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="112dp"
+        android:hint="Add a new e-mail of participant"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_participant">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="top" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/add_mail"
+        android:layout_width="105dp"
+        android:layout_height="55dp"
+
+        android:text="Add a new mail"
+        app:layout_constraintBottom_toBottomOf="@+id/add_participant_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/add_participant_text"
+        app:layout_constraintTop_toTopOf="@+id/add_participant_text" />
+
+    <Button
+        android:id="@+id/add_reunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginTop="28dp"
+        android:text="Add a meetting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_participant_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
