@@ -2,7 +2,7 @@ package fr.sitadigi.mareu.events;
 
 import fr.sitadigi.mareu.model.Meeting;
 
-public class DeleteReunionEvent {
+public class DeleteMeetingEvent {
 
     /**
      * Meeting to delete
@@ -13,7 +13,7 @@ public class DeleteReunionEvent {
      * Constructor.
      * @param meeting
      */
-    public DeleteReunionEvent(Meeting meeting) {
+    public DeleteMeetingEvent(Meeting meeting) {
         mMeeting = meeting;
     }
 

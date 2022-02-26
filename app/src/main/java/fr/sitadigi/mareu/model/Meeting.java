@@ -7,88 +7,69 @@ import java.util.Date;
 import java.util.List;
 
 public class Meeting {
-    int Id;
+    int id;
     Date startDate;
     Date endDate;
-   Room room;
+    Room room;
     String subject;
-   List<Participant> participants;
+    List<Participant> participants;
 
-    private String mLieu;
-    private String mSujet;
-    private Date mDate ;
-    Time t = new Time();
-    private String mTime;
-    private List<Participant> mParticipants;
+    public Meeting(int id, Date startDate, Date endDate, Room room, String subject,
+                   List<Participant> participants) {
 
-    public Meeting(String lieu, String sujet, Date date, String time, List<Participant> participants) {
-        mLieu = lieu;
-        mSujet = sujet;
-        mDate = date;
-        mTime = time;
-        mParticipants = participants;
-    }
-    public Meeting(String lieu, String sujet, List<Participant> participants) {
-        mLieu = lieu;
-        mSujet = sujet;
-        mParticipants = participants;
-         t = new Time();
-        this.mDate = new Date();
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.room = room;
+        this.subject = subject;
+        this.participants = participants;
     }
 
-    public Meeting(String lieu, String sujet, String time, List<Participant> participants) {
-        mLieu = lieu;
-        mSujet = sujet;
-        mTime = time;
-        mParticipants = participants;
+    public int getId() {
+        return id;
     }
 
-
-    public Time getT() {
-        return t;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setT(Time t) {
-        this.t = t;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public String getTime() {
-        return mTime;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public void setTime(String time) {
-        mTime = time;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public String getLieu() {
-        return mLieu;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public void setLieu(String lieu) {
-        mLieu = lieu;
+    public Room getRoom() {
+        return room;
     }
 
-    public String getSujet() {
-        return mSujet;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
-    public void setSujet(String sujet) {
-        mSujet = sujet;
+    public String getSubject() {
+        return subject;
     }
 
-    public Date getDate() {
-        return mDate;
-    }
-
-    public void setDate(Date date) {
-        mDate = date;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public List<Participant> getParticipants() {
-        return mParticipants;
+        return participants;
     }
 
     public void setParticipants(List<Participant> participants) {
-        mParticipants = participants;
+        this.participants = participants;
     }
 }

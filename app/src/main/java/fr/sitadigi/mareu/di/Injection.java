@@ -1,12 +1,16 @@
 package fr.sitadigi.mareu.di;
 
-import fr.sitadigi.mareu.service.ReunionApiServiceImplementation;
-import fr.sitadigi.mareu.service.ReunionApiServiceInterface;
+import fr.sitadigi.mareu.service.MeetingApiServiceImplementation;
+import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
 public class Injection {
-    public  static ReunionApiServiceInterface service = new ReunionApiServiceImplementation();
+    public  static MeetingApiServiceInterface service = new MeetingApiServiceImplementation();
 
-    public static ReunionApiServiceInterface getService() {
+    public static MeetingApiServiceInterface getService() {
         return service;
+    }
+
+    public static MeetingApiServiceInterface getNewInstanceApiService() {
+        return new MeetingApiServiceImplementation();
     }
 }

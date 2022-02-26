@@ -18,10 +18,10 @@ import java.util.List;
 
 import fr.sitadigi.mareu.R;
 import fr.sitadigi.mareu.di.Injection;
-import fr.sitadigi.mareu.events.DeleteReunionEvent;
+import fr.sitadigi.mareu.events.DeleteMeetingEvent;
 import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.model.Meeting;
-import fr.sitadigi.mareu.service.ReunionApiServiceInterface;
+import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +31,7 @@ import fr.sitadigi.mareu.service.ReunionApiServiceInterface;
 public class ListMailFragment extends Fragment {
     RecyclerView mRecyclerView ;
 
-    ReunionApiServiceInterface mApiServiceInterface ;
+    MeetingApiServiceInterface mApiServiceInterface ;
 
     public static List<Participant> mMailLists;
 
@@ -92,7 +92,7 @@ public class ListMailFragment extends Fragment {
 
     public void initRecyclerView(){
         mApiServiceInterface = Injection.getService();
-        sMMeetingLists = mApiServiceInterface.getReunion();
+        sMMeetingLists = mApiServiceInterface.getMeeting();
         mMailLists = mApiServiceInterface.getMailsParticipant();
         ReunionRecyclerViewAdapter reunionRecyclerViewAdapter =
                 new ReunionRecyclerViewAdapter(sMMeetingLists);
@@ -120,8 +120,8 @@ public class ListMailFragment extends Fragment {
 
     }
     @Subscribe
-    public void onDeleteReunion(DeleteReunionEvent event) {
-        mApiServiceInterface.removeReunion(event.mMeeting);
+    public void onDeleteReunion(DeleteMeetingEvent event) {
+        mApiServiceInterface.removeMeeting(event.mMeeting);
         initRecyclerView();
     }
 

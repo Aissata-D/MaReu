@@ -15,12 +15,12 @@ import java.util.List;
 
 import fr.sitadigi.mareu.R;
 import fr.sitadigi.mareu.di.Injection;
-import fr.sitadigi.mareu.events.DeleteReunionEvent;
+import fr.sitadigi.mareu.events.DeleteMeetingEvent;
 import fr.sitadigi.mareu.model.Meeting;
-import fr.sitadigi.mareu.service.ReunionApiServiceInterface;
+import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
 public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecyclerViewAdapter.ViewHolder> {
-    ReunionApiServiceInterface mApiServiceInterface;
+    MeetingApiServiceInterface mApiServiceInterface;
 
     List<Meeting> mMeetings;
 
@@ -40,8 +40,8 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         mApiServiceInterface = Injection.getService();
         //Get Meeting
         Meeting meeting = mMeetings.get(position);
-        String allText = meeting.getSujet() + " - " + meeting.getTime() + " - " + meeting.getLieu();
-        holder.mTextReunion.setText(allText);
+//        String allText = meeting.getSujet() + " - " + meeting.getTime() + " - " + meeting.getLieu();
+       // holder.mTextReunion.setText(allText);
         // afficher la liste des mail participants
         String lisParticipant = "";
         String lisParticipantGlobal = lisParticipant;
@@ -54,7 +54,7 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
             @Override
             public void onClick(View view) {
                 //mApiServiceInterface.removeReunion(meeting);
-                EventBus.getDefault().post(new DeleteReunionEvent(meeting));
+                EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
             }
         });
 

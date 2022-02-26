@@ -61,8 +61,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/meetting_date"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
+        android:layout_width="168dp"
+        android:layout_height="85dp"
         android:layout_margin="16dp"
         android:layout_marginTop="24dp"
         android:hint="Choisir une date"
@@ -71,6 +71,7 @@
 
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meetting_date1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -78,8 +79,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/meetting_time"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
+        android:layout_width="169dp"
+        android:layout_height="83dp"
         android:layout_margin="16dp"
 
         android:hint="Choisir une heure"
