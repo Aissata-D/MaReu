@@ -1,8 +1,6 @@
 package fr.sitadigi.mareu.service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import fr.sitadigi.mareu.model.Participant;
@@ -19,11 +17,11 @@ public interface MeetingApiServiceInterface {
     void removeMeeting(Meeting meeting);
     void addMailParticipant(Participant participant);
     void removeMailParticipant(Participant participant);
-    void addRoom(int id);
-    void removeRoom(int id);
+    void addRoom(Room room);
+    void removeRoom(Room room);
     List<Meeting> filterByRoom(Room room);
-    List<Meeting> filterByStartDay(Date startedDate);
+    List<Meeting> filterByStartDay(Calendar startedDate);
     List<Meeting> resetMeetingList();
-    List<Room> getAvailableRoom(Meeting meeting);
+    List<Room> getAvailableRoom(Calendar startDate,Calendar endDate);
     public Calendar setCalendar(int Year,int Month,int Day,int Hour,int Minute);
 }

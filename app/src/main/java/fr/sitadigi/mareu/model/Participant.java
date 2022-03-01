@@ -35,4 +35,10 @@ public class Participant {
     public void setAdresseMail(String adresseMail) {
         this.adresseMail = adresseMail;
     }
+
+    @Override
+    public String toString() {
+        return this.nameParticipant;
+
+    }
 }

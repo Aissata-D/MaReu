@@ -24,4 +24,9 @@ public class Room {
     public void setNameRoom(String nameRoom) {
         this.nameRoom = nameRoom;
     }
+
+    @Override
+    public String toString() {
+        return this.nameRoom;
+    }
 }

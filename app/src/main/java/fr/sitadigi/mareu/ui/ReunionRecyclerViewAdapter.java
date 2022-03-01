@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.sitadigi.mareu.R;
@@ -22,7 +24,7 @@ import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecyclerViewAdapter.ViewHolder> {
     MeetingApiServiceInterface mApiServiceInterface;
 
-    List<Meeting> mMeetings;
+    List<Meeting> mMeetings = new ArrayList<>();
 
     public ReunionRecyclerViewAdapter(List<Meeting> meetings) {
         this.mMeetings = meetings;
@@ -38,10 +40,13 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mApiServiceInterface = Injection.getService();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy HH:MM");
         //Get Meeting
+        mMeetings = mApiServiceInterface.getMeeting();
         Meeting meeting = mMeetings.get(position);
-//        String allText = meeting.getSujet() + " - " + meeting.getTime() + " - " + meeting.getLieu();
-       // holder.mTextReunion.setText(allText);
+        String allText = meeting.getSubject()+ " - " +"\n\r"+ dateFormat.format(meeting.getStartDate1().getTime())+"\n"
+                + " - " + dateFormat.format(meeting.getEndDate1().getTime())+"\n\r" + " - "+ meeting.getRoom().getNameRoom();
+        holder.mTextReunion.setText(allText);
         // afficher la liste des mail participants
         String lisParticipant = "";
         String lisParticipantGlobal = lisParticipant;
@@ -76,8 +81,8 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         public ViewHolder(View itemView) {
             super(itemView);
             mTextReunion = itemView.findViewById(R.id.all_text);
-            mTime = itemView.findViewById(R.id.meetting_time);
-            mDate = itemView.findViewById(R.id.meetting_date);
+            mTime = itemView.findViewById(R.id.meetting_endDateLayout);
+            mDate = itemView.findViewById(R.id.meetting_startDateLayout);
             mAllMail = itemView.findViewById(R.id.meetting_all_email_item);
             mBtnDelete = itemView.findViewById(R.id.delete_button);
 
