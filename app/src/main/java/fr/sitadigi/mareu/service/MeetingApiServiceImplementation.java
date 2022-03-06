@@ -1,7 +1,9 @@
 package fr.sitadigi.mareu.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import fr.sitadigi.mareu.model.Participant;
@@ -13,6 +15,8 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
     public List<Meeting> mMeetings = MeetingGenerator.generatorReunion();
     List<Participant> mailsParticipants = MeetingGenerator.generatorMailsParticipants();
     List<Room> mRooms = MeetingGenerator.generatorRoom();
+    List<String > mDurations = MeetingGenerator.generatoDuration();
+    final  String SELECT_DURATION = "Select Duration";
     Calendar startDate = Calendar.getInstance();
     Calendar endDate = Calendar.getInstance();
 
@@ -80,16 +84,21 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
 
     @Override
     public List<Meeting> filterByStartDay(Calendar startedDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy");
+
         List<Meeting> filterByStartDayList = new ArrayList<>();
-        Calendar cal1 = Calendar.getInstance();
+        Calendar cal1 = new GregorianCalendar();
+        //dateFormat.format(meeting.getEndDate1().getTime())
         cal1.setTime(startedDate.getTime());
-        for (int i = 0; i < mMeetings.size(); i++) {
-            Calendar cal2 = Calendar.getInstance();
-            cal1.setTime(mMeetings.get(i).getStartDate1().getTime());
-            boolean sameDate = (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) &&
-                    (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR));
-            if (sameDate) {
-                filterByStartDayList.add(mMeetings.get(i));
+        for (Meeting meeting: mMeetings) {
+            Calendar cal2 = new GregorianCalendar();
+            cal2.setTime(meeting.getStartDate1().getTime());
+
+            boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                    cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
+            if (sameDay){
+                filterByStartDayList.add(meeting);
+
             }
         }
         return filterByStartDayList;
@@ -101,29 +110,47 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
     }
 
     @Override
-    public List<Room> getAvailableRoom(Calendar startDate,Calendar endDate) {
-        List<Room> avalaibleRoom = getRoom();
-       // Date startDate = meeting.getStartDate();
-        //Date endDate = meeting.getEndDate();
+    public List<String> getDuration() {
+        return mDurations;
+    }
 
-        for (int i = 0; i < mMeetings.size(); i++) {
-            if (startDate!=null && endDate!=null &&mMeetings.get(i).getStartDate1()!=null
-                    && mMeetings.get(i).getEndDate1()!=null) {
-                if ((startDate.equals(mMeetings.get(i).getStartDate1()) || startDate.after(mMeetings.get(i).getStartDate1()))
-                        && ((startDate.equals(mMeetings.get(i).getEndDate1())) || (startDate.before(mMeetings.get(i).getEndDate1())))) {
-                    avalaibleRoom.remove(mMeetings.get(i).getRoom());
-                } else if ((endDate.equals(mMeetings.get(i).getStartDate1()) || startDate.after(mMeetings.get(i).getStartDate1()))
-                        && ((endDate.equals(mMeetings.get(i).getEndDate1())) || (startDate.before(mMeetings.get(i).getEndDate1())))) {
-                    avalaibleRoom.remove(mMeetings.get(i).getRoom());
+    @Override
+    public void addInitialTextDuration() {
+        mDurations.add(0,SELECT_DURATION );
+
+    }
+
+    @Override
+    public List<Room> getAvailableRoom(Calendar startDate, Calendar endDate) {
+        List<Room> availableRooms = new ArrayList<>();
+        List<Room> notAvailableRooms = new ArrayList<>();
+        if(startDate== null || endDate==null){
+            return availableRooms;
+        }
+        for (Meeting meeting:mMeetings) {
+
+                if ((startDate.equals(meeting.getStartDate1()) || startDate.after(meeting.getStartDate1()))
+                        && ((startDate.equals(meeting.getEndDate1())) || (startDate.before(meeting.getEndDate1())))) {
+                    notAvailableRooms.add(meeting.getRoom());
+                } else if ((endDate.equals(meeting.getStartDate1()) || endDate.after(meeting.getStartDate1()))
+                        && ((endDate.equals(meeting.getEndDate1())) || (endDate.before(meeting.getEndDate1())))) {
+                    notAvailableRooms.add(meeting.getRoom());
+                }else if(startDate.before(meeting.getStartDate1() )&& endDate.after(meeting.getEndDate1())){
+                    notAvailableRooms.add(meeting.getRoom());
                 }
+        }
+        for (Room room : mRooms) {
+            if (!notAvailableRooms.contains(room)) {
+                availableRooms.add(room);
             }
         }
-        return avalaibleRoom;
+        return availableRooms;
     }
+
     @Override
-    public Calendar setCalendar(int Year,int Month,int Day,int Hour,int Minute){
-        Calendar cal =  Calendar.getInstance();
-        cal.set(Year,Month,Day,Hour,Minute);
+    public Calendar setCalendar(int Year, int Month, int Day, int Hour, int Minute) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Year, Month, Day, Hour, Minute);
         return cal;
 
     }

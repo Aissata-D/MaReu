@@ -13,7 +13,7 @@ import android.view.View;
 
 import fr.sitadigi.mareu.R;
 
-public class AddMailActivity extends FragmentActivity implements AddMailFragment.onButtonAddReunionListener {
+public class AddMailActivity extends AppCompatActivity implements AddMailFragment.onButtonAddReunionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class AddMailActivity extends FragmentActivity implements AddMailFragment
         AddMailFragment addMailFragment = new AddMailFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.framLayout_add_mail, addMailFragment ); //give your fragment container id in first parameter
-        transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+       // transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
         transaction.commit();
     }
 

@@ -6,26 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.AddMailActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="22dp"
-        android:layout_marginTop="16dp"
-        android:text="ACTIVITY ADD MAIL ACTIVITY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <FrameLayout
         android:id="@+id/framLayout_add_mail"
         android:name="fr.sitadigi.mareu.ui.ListMailFragment"
-        android:layout_width="399dp"
-        android:layout_height="0dp"
-
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,17 @@
 package fr.sitadigi.mareu.ui;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 
 //import android.app.Fragment;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 //import androidx.fragment.app.Fragment;
-//import androidx.fragment.app.FragmentManager
+//import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,13 +23,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import fr.sitadigi.mareu.R;
@@ -58,26 +65,35 @@ public class AddMailFragment extends Fragment {
     TextInputLayout mEndDate;
     TextInputLayout mStartDate;
     TextInputLayout mSubject;
-    TextInputLayout mListeParticipant;
+    MaterialTextView mListeParticipant;
     TextInputLayout mAddParticipant;
     Button mBtnConfirmDate;
     Button mBtnAddReunion;
     List<Participant> mParticipants;
     MeetingApiServiceInterface mApiServiceInterface ;
-    Spinner spinnerRoom, spinnerParticipant;
+    Spinner spinnerRoom, spinnerParticipant, spinnerDuration;
     List<Room> mRooms;
-
-
-
+    String mDurationSelected;
+    final  String SELECT_DURATION = "Select Duration";
+    boolean isSelectDuration;
     public onButtonAddReunionListener mCallback;
     private List<Meeting> mMeetingLists;
+    String nameParticipant="";
+    String nameParticipantGlobal = nameParticipant;
+
+    String participant1="";
+    String participantGlobal1="";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Calendar mCompareDate = Calendar.getInstance();
-    private Calendar mCompareStartDate;
-    private Calendar mCompareEndDate ;
+    private Calendar mCompareDate = new GregorianCalendar() ;
+    private Calendar mCompareStartDate = new GregorianCalendar();
+    private Calendar mCompareEndDate = new GregorianCalendar() ;
+    private List<String> mDuration;
+    private Room mRoomSelected;
+    private List<Participant> mParticipantSelecteds = new ArrayList<>();
 
     public AddMailFragment() {
         // Required empty public constructor
@@ -119,22 +135,67 @@ public class AddMailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_mail, container, false);
-      //  mPlace = view.findViewById(R.id.spinner_room);
-        mEndDate = view.findViewById(R.id.meetting_endDateLayout);
         mStartDate = view.findViewById(R.id.meetting_startDateLayout);
 
         mSubject = view.findViewById(R.id.meetting_subject);
         mListeParticipant = view.findViewById(R.id.list_participant);
         //mAddParticipant = view.findViewById(R.id.add_participant_text);
-        mBtnConfirmDate   = view.findViewById(R.id.confirm_date);
         mBtnAddReunion = view.findViewById(R.id.add_reunion);
         spinnerRoom = view.findViewById(R.id.spinner_room);
         spinnerParticipant = view.findViewById(R.id.spinner_participant);
+        spinnerDuration= view.findViewById(R.id.spinner_time_duration);
+        mApiServiceInterface = Injection.getService();
 
 
+///SPINNER DURATION---------------------------
+        mDuration = mApiServiceInterface.getDuration();
+        if(!mDuration.get(0).equals(SELECT_DURATION)) {
+            mApiServiceInterface.addInitialTextDuration();
+        }
+        ArrayAdapter<String> adapterDuration = new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_spinner_item,
+                mDuration);
+
+        // Layout for All ROWs of Spinner.  (Optional for ArrayAdapter).
+        adapterDuration.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.spinnerDuration.setPrompt("Select duration11");
+        this.spinnerDuration.setAdapter(adapterDuration);
+        int lastIndex=0;
+        spinnerDuration.setSelection(lastIndex);
+        // When user select a List-Item.
+
+        this.spinnerDuration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                onItemSelectedHandler(adapterView, view, i, l);
+                if(! adapterView.getItemAtPosition(i).equals(SELECT_DURATION)) {
+                    mDurationSelected = spinnerDuration.getSelectedItem().toString();
+                    isSelectDuration=true;
+                    boolean bStartDate = mStartDate.getEditText().getText().toString().trim().length()>0 ;
+                    if(bStartDate && mDurationSelected!=null) {
+                        setEndDate();
+                    }
+                }
+                availableRoom();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //Nothing
+
+            }
+
+
+            private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id) {
+                Adapter adapterDuration = adapterView.getAdapter();
+                String mDuration = (String) adapterDuration.getItem(position);
+            }
+        });
+
+        //SPINNER DURATION FIN -------------------------------------
 
         // Spiner Participant
-        mApiServiceInterface = Injection.getService();
 
         mParticipants = mApiServiceInterface.getMailsParticipant();
         ArrayAdapter<Participant> adapterParticipant = new ArrayAdapter<Participant>(this.getActivity(),
@@ -143,7 +204,7 @@ public class AddMailFragment extends Fragment {
 
         // Layout for All ROWs of Spinner.  (Optional for ArrayAdapter).
         adapterParticipant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.spinnerParticipant.setPrompt("Select participant");
+        //this.spinnerParticipant.setPrompt("Select participant");
         this.spinnerParticipant.setAdapter(adapterParticipant);
 
         // When user select a List-Item.
@@ -153,11 +214,18 @@ public class AddMailFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 onItemSelectedHandler(adapterView, view, i, l);
-                spinnerParticipant.getSelectedItem().toString();
+                //mParticipantSelecteds.add(spinnerParticipant.getSelectedItem());
 
-                mListeParticipant.getEditText().setText(spinnerParticipant.getSelectedItem().toString());
+               // String nameParticipant="";
+                nameParticipant= spinnerParticipant.getSelectedItem().toString();
+                //String nameParticipantGlobal ;
+                nameParticipantGlobal = nameParticipantGlobal +" "+ nameParticipant;
+                mListeParticipant.setText(nameParticipantGlobal);
+
+                // mParticipantSelecteds = new Participant(1,spinnerParticipant.getSelectedItem().toString(),"mail");
                 Log.e("TAG", "onItemSelected: " +spinnerParticipant.getSelectedItem().toString());
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -168,6 +236,13 @@ public class AddMailFragment extends Fragment {
             private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id) {
                 Adapter adapterParticipant = adapterView.getAdapter();
                 Participant mParticipant = (Participant) adapterParticipant.getItem(position);
+
+                mParticipantSelecteds.add(mParticipant);
+                for (int i=0; i< mParticipantSelecteds.size();i++) {
+                    participant1 = mParticipantSelecteds.get(i).getNameParticipant();
+                    participantGlobal1= participantGlobal1+ participant1;
+                   // mListeParticipant.getEditText().setText(participantGlobal1);
+                }
             }
         });
 
@@ -179,7 +254,7 @@ public class AddMailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        //createCallbackToParentActivity();
+        createCallbackToParentActivity();
     }
 
     public void init() {
@@ -190,22 +265,24 @@ public class AddMailFragment extends Fragment {
         mBtnAddReunion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-           // Meeting meeting = new Meeting(2,mStartDate,mEndDate,)
+                mMeetingLists= mApiServiceInterface.getMeeting();
+                boolean bSubject = mSubject.getEditText().getText().toString().trim().length()>0 ;
 
-                mCallback.OnButtonAddReunionClick(view);
+                if(mMeetingLists!=null && mCompareStartDate!=null && mCompareEndDate!=null
+                    && mRoomSelected!= null && bSubject && mParticipantSelecteds!= null
+                && !mDurationSelected.equals(mDuration.get(0))){
+            Meeting meeting = new Meeting(mMeetingLists.size(),mCompareStartDate,mCompareEndDate
+                    ,mRoomSelected
+                    , mSubject.getEditText().getText().toString()
+                    ,mParticipantSelecteds);
+            mApiServiceInterface.addMeeting(meeting);
+
+                mCallback.OnButtonAddReunionClick(view);}
+
 
             }
 
         });
-        //Set year; month and day
-        Calendar calendar = Calendar.getInstance();
-        int Year = calendar.get(Calendar.YEAR);
-        int Month = calendar.get(Calendar.MONTH);
-        int Day = calendar.get(Calendar.DAY_OF_MONTH);
-        // Set hour and minute
-        int Hour = calendar.get(calendar.HOUR_OF_DAY);
-        int Minute = calendar.get(calendar.MINUTE);
-
 
         // Set StartDate
         mStartDate.setOnClickListener(new View.OnClickListener() {
@@ -216,29 +293,6 @@ public class AddMailFragment extends Fragment {
                 mCompareStartDate = mCompareDate;
                 Log.e("TAG", "onClick: mCompare est "+mCompareDate +" "+mCompareStartDate );
 
-            }
-        });
-        // Set EndDate
-            mEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setDateAndHour(mEndDate);
-                mCompareEndDate = mCompareDate;
-                Log.e("TAG", "onClick: mCompare est "+mCompareDate );
-            }
-        });
-
-        mBtnConfirmDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                boolean bStartDate = mStartDate.getEditText().getText().toString().trim().length()>0 ;
-                boolean bEndDate = mEndDate.getEditText().getText().toString().trim().length()>0 ;
-                if(mCompareStartDate !=null && mCompareEndDate!=null
-                        && bStartDate && bEndDate) {
-                    mRooms = mApiServiceInterface.getAvailableRoom(mCompareStartDate, mCompareEndDate);
-                }else mRooms= new ArrayList<>();
-                availableRoom();
 
             }
         });
@@ -247,15 +301,17 @@ public class AddMailFragment extends Fragment {
     public void setDateAndHour(TextInputLayout field){
         Calendar date;
         //public void showDateTimePicker() {
-        final Calendar currentDate = Calendar.getInstance();
-        date = Calendar.getInstance();
+        final Calendar currentDate = new GregorianCalendar();
+        //date = Calendar.getInstance();
+        date= new GregorianCalendar();
         new DatePickerDialog(this.getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 date.set(year, monthOfYear, dayOfMonth);
-                int month = monthOfYear+1;
-                //  String date1 = dayOfMonth+" / "+month+" / "+ year ;
-                //mDate.getEditText().setText(date1);
+                Log.e("TAG", "The choosen one Date " + date.getTime());
+
+                int month = monthOfYear;//+1;
+
                 new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -263,18 +319,23 @@ public class AddMailFragment extends Fragment {
                         date.set(Calendar.MINUTE, minute);
                         String time = hourOfDay+" h "+minute;
                         String date1 = dayOfMonth+" / "+month+" / "+ year ;
-
-                        String mDateDebut = date1 + " à " +time;
-                        field.getEditText().setText(mDateDebut);
+                        //date.add(Calendar.MONTH, 5 );
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy HH:mm");
+                        //String mDateDebut = date1 + " à " +time;
+                        field.getEditText().setText(dateFormat.format(date.getTime()));
                         mCompareDate.set(year, month, dayOfMonth,hourOfDay,minute);
                         //mTime.setText(time);
-                        Log.e("TAG", "The choosen one " + mCompareDate);
+                        Log.e("TAG", "The choosen one mCompareDate " + mCompareDate.getTime());
                         boolean bStartDate = mStartDate.getEditText().getText().toString().trim().length()>0 ;
-                        boolean bEndDate = mEndDate.getEditText().getText().toString().trim().length()>0 ;
-                        if(mCompareStartDate !=null && mCompareEndDate!=null
-                                && bStartDate && bEndDate) {
-                            mRooms = mApiServiceInterface.getAvailableRoom(mCompareStartDate, mCompareEndDate);
-                        }else mRooms= new ArrayList<>();
+
+                        //boolean bEndDate = mEndDate.getEditText().getText().toString().trim().length()>0 ;
+                       // boolean bStartDate = mStartDate.getEditText().getText().toString().trim().length()>0 ;
+                        if(bStartDate && mDurationSelected!=null) {
+                            setEndDate();
+                        }
+
+                            availableRoom();
+
                     }
                 }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
             }
@@ -284,6 +345,11 @@ public class AddMailFragment extends Fragment {
 
 public void availableRoom(){
     mApiServiceInterface = Injection.getService();
+    boolean bStartDate = mStartDate.getEditText().getText().toString().trim().length()>0 ;
+    if(mCompareStartDate !=null && mCompareEndDate!=null
+            && bStartDate && isSelectDuration) {
+        mRooms = mApiServiceInterface.getAvailableRoom(mCompareStartDate, mCompareEndDate);
+    }else mRooms= new ArrayList<>();
    // mRooms= new ArrayList<>();
     ArrayAdapter<Room> adapter = new ArrayAdapter<Room>(this.getActivity(),
             android.R.layout.simple_spinner_item,
@@ -301,30 +367,111 @@ public void availableRoom(){
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             onItemSelectedHandler(adapterView, view, i, l);
+           // mRoomSelected = spinnerRoom.getSelectedItem();
 
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
             //Nothing
-            mListeParticipant.getEditText().setText("Select Room");
+           // mListeParticipant.getEditText().setText("Select Room");
         }
 
         private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id) {
             Adapter adapter = adapterView.getAdapter();
-            Room mRooms = (Room) adapter.getItem(position);
+            mRoomSelected = (Room) adapter.getItem(position);
         }
     });
-}
+
+    }
     public void createCallbackToParentActivity(){
         mCallback = (onButtonAddReunionListener)getActivity();
+    }
+
+    public void setEndDate(){
+        // mCompareEndDate = new GregorianCalendar();
+        if(!mDurationSelected.equals(mDuration.get(0))) {
+            mCompareEndDate.setTime(mCompareStartDate.getTime());
+        }
+        if (mDurationSelected.equals(mDuration.get(1))) {
+            //mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.MINUTE, 30);
+        } else if (mDurationSelected.equals(mDuration.get(2))) {
+            //  mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 1);
+        }
+        else if (mDurationSelected.equals(mDuration.get(3))) {
+            //   mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 1);
+            mCompareEndDate.add(Calendar.MINUTE, 15);
+        }
+        else if (mDurationSelected.equals(mDuration.get(4))) {
+            //  mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 1);
+            mCompareEndDate.add(Calendar.MINUTE, 30);
+        }
+        else if (mDurationSelected.equals(mDuration.get(5))) {
+            //    mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 1);
+            mCompareEndDate.add(Calendar.MINUTE, 45);
+        }
+        else if (mDurationSelected.equals(mDuration.get(6))) {
+            //   mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 2);
+        }
+        else if (mDurationSelected.equals(mDuration.get(7))) {
+            // mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 2);
+            mCompareEndDate.add(Calendar.MINUTE, 15);
+        }
+        else if (mDurationSelected.equals(mDuration.get(8))) {
+            //   mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 2);
+            mCompareEndDate.add(Calendar.MINUTE, 30);
+        }
+        else if (mDurationSelected.equals(mDuration.get(9))) {
+            //     mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 2);
+            mCompareEndDate.add(Calendar.MINUTE, 45);
+        }
+        else if (mDurationSelected.equals(mDuration.get(10))) {
+            //     mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 3);
+        }
+        else if (mDurationSelected.equals(mDuration.get(11))) {
+            //     mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 3);
+            mCompareEndDate.add(Calendar.MINUTE, 15);
+        }
+        else if (mDurationSelected.equals(mDuration.get(12))) {
+            //     mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 3);
+            mCompareEndDate.add(Calendar.MINUTE, 30);
+        }
+        else if (mDurationSelected.equals(mDuration.get(13))) {
+            //    mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 3);
+            mCompareEndDate.add(Calendar.MINUTE, 45);
+        }
+        else if (mDurationSelected.equals(mDuration.get(14))) {
+            //    mCompareEndDate = mCompareStartDate;
+            mCompareEndDate.add(Calendar.HOUR, 4);
+        }
+       // SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy HH:mm");
+        //mListeParticipant.setText(dateFormat.format(mCompareEndDate.getTime()));
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
+
+
+
     }
+
+
 }
  /*
  public void setDateAndTime(){

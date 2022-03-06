@@ -11,15 +11,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-38dp" />
-
-
     <Spinner
         android:id="@+id/spinner_participant"
         android:layout_width="359dp"
@@ -37,12 +28,12 @@
         android:layout_width="359dp"
         android:layout_height="57dp"
 
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="40dp"
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintHorizontal_bias="0.557"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_date" />
+        app:layout_constraintTop_toBottomOf="@+id/meetting_startDateLayout" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/meetting_subject"
@@ -50,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:hint="Sujet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,8 +57,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/meetting_startDateLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="168dp"
-        android:layout_height="85dp"
+        android:layout_width="216dp"
+        android:layout_height="83dp"
         android:layout_margin="16dp"
         android:layout_marginTop="24dp"
         android:hint="Date et heure du debut"
@@ -81,51 +72,41 @@
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/meetting_endDateLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="169dp"
-        android:layout_height="83dp"
-        android:layout_margin="16dp"
 
-        android:hint="Date et heure de la fin"
+    <Spinner
+        android:id="@+id/spinner_time_duration"
+        android:layout_width="119dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:prompt="@string/select_duration"
         app:layout_constraintBottom_toBottomOf="@+id/meetting_startDateLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toEndOf="@+id/meetting_startDateLayout"
-        app:layout_constraintTop_toTopOf="@+id/meetting_startDateLayout">
+        app:layout_constraintTop_toTopOf="@+id/meetting_startDateLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/meetting_endDateInput"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/list_participant"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="365dp"
-        android:layout_height="107dp"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
         android:layout_margin="16dp"
 
-
-        android:hint="E-mail of participant"
+        android:gravity="top"
+        android:hint="Participant name"
+        android:text="Participant name"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_room">
+        app:layout_constraintTop_toBottomOf="@+id/spinner_room" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:inputType="textMultiLine" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/add_reunion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="163dp"
+        android:layout_height="62dp"
 
 
         android:layout_marginTop="8dp"
@@ -134,18 +115,5 @@
         app:layout_constraintHorizontal_bias="0.996"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/confirm_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-
-        android:layout_marginTop="16dp"
-        android:text="Click to confirm date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meetting_startDateLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

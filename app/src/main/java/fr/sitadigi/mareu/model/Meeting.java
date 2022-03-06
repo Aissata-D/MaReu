@@ -17,7 +17,7 @@ public class Meeting {
     String subject;
     List<Participant> participants;
 
-    public Meeting(int id, Date startDate, Date endDate, Room room, String subject,
+   /* public Meeting(int id, Date startDate, Date endDate, Room room, String subject,
                    List<Participant> participants) {
 
         this.id = id;
@@ -26,7 +26,7 @@ public class Meeting {
         this.room = room;
         this.subject = subject;
         this.participants = participants;
-    }
+    }*/
 
     public Meeting(int id,
                    Calendar startDate1, Calendar endDate1, Room room, String subject,
@@ -37,7 +37,6 @@ public class Meeting {
         this.room = room;
         this.subject = subject;
         this.participants = participants1;
-
 
     }
     /////////////////GETTER AND SETTER CALENDAR-----------------------------------------------

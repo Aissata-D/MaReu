@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import fr.sitadigi.mareu.di.Injection;
@@ -109,27 +110,30 @@ List<Meeting> mMeetings;
 
     @Test
     public void filterByStartDay() {
-        Calendar dateDebut1 = Calendar.getInstance();
+        Calendar dateDebut1 = new GregorianCalendar(2022,1,28);
 
-        dateDebut1.set(2022,01,28,15,10);
 
+       // List<Meeting> meetings1= service.getMeeting();
         List<Meeting> meetings= service.filterByStartDay(dateDebut1);
-        assertEquals(dateDebut1.get(Calendar.YEAR)
-                ,meetings.get(0).getStartDate1().get(Calendar.YEAR) );
-
-        assertEquals(dateDebut1.get(Calendar.DAY_OF_YEAR)
-                ,meetings.get(0).getStartDate1().get(Calendar.DAY_OF_YEAR));
-
+        assertEquals(1,meetings.size());
+        assertTrue(meetings.contains(service.getMeeting().get(0)));
+        assertFalse(meetings.contains(service.getMeeting().get(1)));
+        assertFalse(meetings.contains(service.getMeeting().get(2)));
+        assertEquals(meetings.get(0).getStartDate1().get(Calendar.DAY_OF_YEAR),
+                service.getMeeting().get(0).getStartDate1().get(Calendar.DAY_OF_YEAR));
+        assertEquals(meetings.get(0).getStartDate1().get(Calendar.YEAR),
+                service.getMeeting().get(0).getStartDate1().get(Calendar.YEAR));
 
     }
 
     @Test
     public void getAvailableRoom() {
-        Calendar dateDebut1 = Calendar.getInstance();
-        Calendar dateFin1 = Calendar.getInstance();
-        dateDebut1.set(2022,01,28,15,10);
-        dateFin1.set(2022,01,28,15,45);
-
+        Calendar dateDebut1 = new GregorianCalendar(2022,1,28,15,10);
+        Calendar dateFin1 = new GregorianCalendar(2022,1,28,15,45);
+       // Calendar dateFin1 = Calendar.getInstance();
+        //dateDebut1.set();
+        //dateFin1.set(2022,1,28,15,45);
+        // creer les meeting à tester ici
         List<Room> avalaibleRoom = service.getAvailableRoom(dateDebut1,dateFin1);// Date of meeting get(0)
         assertFalse(avalaibleRoom.contains(service.getMeeting().get(0).getRoom()));
         assertTrue(avalaibleRoom.contains(service.getMeeting().get(1).getRoom()));
@@ -137,7 +141,7 @@ List<Meeting> mMeetings;
         List<Room> avalaibleRoom1 = service.getAvailableRoom(service.getMeeting().get(1).getStartDate1()
                ,service.getMeeting().get(1).getEndDate1()); //Date of meeting get(1)
         assertTrue(avalaibleRoom1.contains(service.getMeeting().get(0).getRoom()));
-        assertFalse(avalaibleRoom1.contains(service.getMeeting().get(1).getRoom()));
+       assertFalse(avalaibleRoom1.contains(service.getMeeting().get(1).getRoom()));
 
         assertTrue(avalaibleRoom1.contains(service.getMeeting().get(2).getRoom()));
 
