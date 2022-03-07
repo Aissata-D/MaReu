@@ -38,15 +38,14 @@ import fr.sitadigi.mareu.model.Meeting;
 import fr.sitadigi.mareu.model.Room;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
-public class MainActivity extends FragmentActivity {
-FloatingActionButton MainBtnAdd;
+public class MainActivity extends AppCompatActivity {
+    FloatingActionButton MainBtnAdd;
     DatePickerDialog.OnDateSetListener setListener;
     MeetingApiServiceInterface mApiServiceInterface;
+    Spinner spinnerRoom;
     private List<Room> mRooms;
     private List<Meeting> mMeetingListSelected;
     private Room mRoomSelected;
-    Spinner spinnerRoom;
-    int mCondition =4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ FloatingActionButton MainBtnAdd;
         MainBtnAdd = findViewById(R.id.floatingActionButtonAdd);
 //        mMeetingListSelected = mApiServiceInterface.getMeeting();
 
-        showFragmentListMail(mCondition);
+        showFragmentListMail();
         MainBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,11 +72,19 @@ FloatingActionButton MainBtnAdd;
         });
     }
 
-    void showFragmentListMail(int condition){
-        ListMailFragment listMailFragment = new ListMailFragment();
+    void showFragmentListMail() {
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.framLayout_list_mail, listMailFragment ); //give your fragment container id in first parameter
-        //transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+        ListMailFragment listMailFragment = (ListMailFragment) getFragmentManager()
+                .findFragmentById(R.id.framLayout_list_mail);
+        if (listMailFragment == null) {
+            listMailFragment = new ListMailFragment();
+
+            transaction.add(R.id.framLayout_list_mail, listMailFragment);
+
+        } else transaction.show(listMailFragment);
+        //give your fragment container id in first parameter
+        transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
         transaction.commit();
         Log.d("TAG", "onClick: fragment lancer");
     }
@@ -86,11 +93,12 @@ FloatingActionButton MainBtnAdd;
     public void onBackPressed() {
         super.onBackPressed();
 
-            FragmentManager fm = this.getSupportFragmentManager();
-            fm.popBackStack();
+        FragmentManager fm = this.getSupportFragmentManager();
+        fm.popBackStack();
 
 
     }
+
 
     /*
         @Override
@@ -125,11 +133,7 @@ FloatingActionButton MainBtnAdd;
     private void filterByRoom() {
         mApiServiceInterface = Injection.getService();
 
-            }
-
-
-
-
+    }
 
 
 }

@@ -20,16 +20,20 @@ public class AddMailActivity extends AppCompatActivity implements AddMailFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mail);
 
-        AddMailFragment addMailFragment = new AddMailFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.framLayout_add_mail, addMailFragment ); //give your fragment container id in first parameter
-       // transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+        AddMailFragment addMailFragment = (AddMailFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.framLayout_add_mail);
+        if (addMailFragment == null) {
+            addMailFragment = new AddMailFragment();
+            transaction.add(R.id.framLayout_add_mail, addMailFragment); //give your fragment container id in first parameter
+        } else transaction.show(addMailFragment);
+        // transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
         transaction.commit();
     }
 
     @Override
     public void OnButtonAddReunionClick(View view) {
         Log.d("TAG", "OnButtonAddReunionClick: Callback reussi!!!");
-    finish();
+        finish();
     }
 }

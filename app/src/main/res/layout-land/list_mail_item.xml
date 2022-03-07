@@ -26,7 +26,7 @@
         android:layout_marginTop="28dp"
         android:text="Sujet - 14h00 - Place"
         android:textColor="@color/black"
-        android:textSize="@dimen/size_text_sujet_time_place"
+        android:textSize="@dimen/size_text_land_sujet_time_place"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,20 +46,18 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/meetting_all_email_item"
-        android:layout_width="259dp"
-        android:layout_height="26dp"
+        android:layout_width="514dp"
+        android:layout_height="30dp"
         android:layout_marginTop="12dp"
         android:gravity="top"
 
         android:text="Participant name"
-        android:textSize="@dimen/size_text_mail_participant"
+        android:textSize="@dimen/size_text_land_mail_participant"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/all_text"
         app:layout_constraintTop_toBottomOf="@id/all_text" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

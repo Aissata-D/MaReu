@@ -114,8 +114,9 @@ public class ListMailFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu, menu);
         //super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
