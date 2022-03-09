@@ -1,17 +1,13 @@
 package fr.sitadigi.mareu.ui;
 
-import android.os.Bundle;
-
-//import androidx.fragment.app.Fragment;
 import android.app.Fragment;
-
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.sitadigi.mareu.R;
@@ -20,15 +16,17 @@ import fr.sitadigi.mareu.model.Meeting;
 import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
+//import androidx.fragment.app.Fragment;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DetailMeetingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class DetailMeetingFragment extends Fragment {
-    final String POSITION= "POSITION";
+    final String POSITION = "POSITION";
     private int mPosition;
-    MeetingApiServiceInterface mApiServiceInterface ;
+    MeetingApiServiceInterface mApiServiceInterface;
     private List<Meeting> mMeetingLists;
 
     TextView mSubject;
@@ -55,7 +53,6 @@ public class DetailMeetingFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-
      * @return A new instance of fragment DetailMeetingFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -80,7 +77,7 @@ public class DetailMeetingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_meeting, container, false);
         // Get position of meeting
         if (getArguments() != null) {
-            mPosition =  getArguments().getInt(POSITION);
+            mPosition = getArguments().getInt(POSITION);
         }
         mApiServiceInterface = Injection.getService();
         mMeetingLists = mApiServiceInterface.getMeeting();
@@ -91,24 +88,24 @@ public class DetailMeetingFragment extends Fragment {
         mParticipant = view.findViewById(R.id.liste_participant_details);
         // setTex view
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy HH:mm");
-        String subject = "Sujet de la réunion : "+mMeetingLists.get(mPosition).getSubject();
+        String subject = "Sujet de la réunion : " + mMeetingLists.get(mPosition).getSubject();
         mSubject.setText(subject);
-        String room = "Salle de la réunion : "+mMeetingLists.get(mPosition).getRoom().getNameRoom();
+        String room = "Salle de la réunion : " + mMeetingLists.get(mPosition).getRoom().getNameRoom();
         mRoom.setText(room);
 
         String startDate = "Heure du debut de la réunion : \n"
-                +dateFormat.format(mMeetingLists.get(mPosition).getStartDate1().getTime());
+                + dateFormat.format(mMeetingLists.get(mPosition).getStartDate1().getTime());
         mStartDate.setText(startDate);
         String endDate = "Heure de fin de la réunion : \n"
-                +dateFormat.format(mMeetingLists.get(mPosition).getEndDate1().getTime());
+                + dateFormat.format(mMeetingLists.get(mPosition).getEndDate1().getTime());
         mEndDate.setText(endDate);
-        List<Participant> participants= mMeetingLists.get(mPosition).getParticipants();
+        List<Participant> participants = mMeetingLists.get(mPosition).getParticipants();
         String nameParticipant = "";
-        String nameParticipantGlobal="Noms des participants : \n";
-        for(Participant p: participants){
-             nameParticipant = p.getNameParticipant();
-         // nameParticipantGlobal = nameParticipant;
-            nameParticipantGlobal= nameParticipantGlobal +"\n"+nameParticipant;
+        String nameParticipantGlobal = "Noms des participants : \n";
+        for (Participant p : participants) {
+            nameParticipant = p.getNameParticipant();
+            // nameParticipantGlobal = nameParticipant;
+            nameParticipantGlobal = nameParticipantGlobal + "\n" + nameParticipant;
 
         }
         mParticipant.setText(nameParticipantGlobal);

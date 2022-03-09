@@ -1,7 +1,8 @@
 package fr.sitadigi.mareu.ui;
 
 
-import android.content.Intent;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-//import androidx.fragment.app.FragmentManager;
-//import androidx.fragment.app.FragmentManager;
-
-import android.app.FragmentManager;
-import  android.app.FragmentTransaction;
-//import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
@@ -34,13 +28,17 @@ import fr.sitadigi.mareu.events.DeleteMeetingEvent;
 import fr.sitadigi.mareu.model.Meeting;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
+//import androidx.fragment.app.FragmentManager;
+//import androidx.fragment.app.FragmentManager;
+//import androidx.fragment.app.FragmentTransaction;
+
 public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecyclerViewAdapter.ViewHolder> {
     MeetingApiServiceInterface mApiServiceInterface;
 
     List<Meeting> mMeetings = new ArrayList<>();
     private int mPosition;
     FragmentActivity mFragmentActivity;
-    final String POSITION= "POSITION";
+    final String POSITION = "POSITION";
 
     public ReunionRecyclerViewAdapter(FragmentActivity fragmentActivity, List<Meeting> meetings) {
         this.mMeetings = meetings;
@@ -59,7 +57,7 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         mApiServiceInterface = Injection.getService();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         //Get Meeting
-      //  mMeetings = mApiServiceInterface.getMeeting();
+        //  mMeetings = mApiServiceInterface.getMeeting();
         //+ " - " + dateFormat.format(meeting.getStartDate1().getTime())
 
         Meeting meeting = mMeetings.get(position);
@@ -67,14 +65,14 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         int minute = meeting.getStartDate1().get(Calendar.MINUTE);
 
         String allText = meeting.getSubject()
-                 + " - "+ hour+"h"+minute + " - "+ meeting.getRoom().getNameRoom();
+                + " - " + hour + "h" + minute + " - " + meeting.getRoom().getNameRoom();
         holder.mTextReunion.setText(allText);
         // afficher la liste des mail participants
         String lisParticipant = "";
         String lisParticipantGlobal = lisParticipant;
         for (int i = 0; i < meeting.getParticipants().size(); i++) {
             lisParticipant = meeting.getParticipants().get(i).getAdresseMail();
-            if(i==0){
+            if (i == 0) {
                 lisParticipantGlobal = lisParticipant;
             } else lisParticipantGlobal = lisParticipantGlobal + " , " + lisParticipant;
 
@@ -92,16 +90,16 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
             @Override
             public void onClick(View v) {
                 mPosition = holder.getAdapterPosition();
-             //FAIRE UN CALLBACK ?????
+                //FAIRE UN CALLBACK ?????
                 DetailMeetingFragment detailMeetingFragment = new DetailMeetingFragment();
-            // Put Meeting position in a detailMeetingFragment
+                // Put Meeting position in a detailMeetingFragment
                 Bundle bundle = new Bundle();
                 bundle.putInt(POSITION, mPosition);
                 detailMeetingFragment.setArguments(bundle);
-            // Start detailMeetingFragment
+                // Start detailMeetingFragment
                 FragmentManager fragmentManager = mFragmentActivity.getFragmentManager();
-                FragmentTransaction transaction =   fragmentManager.beginTransaction();
-                transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment ); //give your fragment container id in first parameter
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment); //give your fragment container id in first parameter
                 transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
                 transaction.commit();
 

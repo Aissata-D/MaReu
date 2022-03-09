@@ -1,17 +1,16 @@
 package fr.sitadigi.mareu.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-//import androidx.fragment.app.FragmentActivity;
-
-import androidx.fragment.app.FragmentTransaction;
-//import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import fr.sitadigi.mareu.R;
+
+//import androidx.fragment.app.FragmentActivity;
+//import android.app.FragmentTransaction;
 
 public class AddMailActivity extends AppCompatActivity implements AddMailFragment.onButtonAddReunionListener {
 

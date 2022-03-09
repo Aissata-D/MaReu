@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -50,6 +48,8 @@
         android:layout_height="26dp"
         android:layout_marginTop="12dp"
         android:gravity="top"
+        android:ellipsize="marquee"
+        android:singleLine="true"
 
         android:text="Participant name"
         android:textSize="@dimen/size_text_mail_participant"
@@ -58,8 +58,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/all_text"
         app:layout_constraintTop_toBottomOf="@id/all_text" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,13 @@
 package fr.sitadigi.mareu.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.model.Meeting;
+import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.model.Room;
 
 public class MeetingGenerator {
@@ -57,12 +54,12 @@ public class MeetingGenerator {
                     , new GregorianCalendar(2022, 2, 28, 18, 50), sRooms.get(1), "Sujet 2", MAILS_PARTICIPANTS),
             new Meeting(6, new GregorianCalendar(2022, 3, 28, 17, 20)
                     , new GregorianCalendar(2022, 3, 28, 18, 5), sRooms.get(2), "Sujet 3", MAILS_PARTICIPANTS),
-            new Meeting(7,new GregorianCalendar(2022,1,28,15,10)
-                    ,new GregorianCalendar(2022,1,28,15,45),sRooms.get(0),"Sujet 1",MAILS_PARTICIPANTS),
-            new Meeting(8,new GregorianCalendar(2022,2,28,16,25)
-                    ,new GregorianCalendar(2022,2,28,18,50),sRooms.get(1),"Sujet 2",MAILS_PARTICIPANTS),
-            new Meeting(9,new GregorianCalendar(2022,3,28,17,20)
-                    ,new GregorianCalendar(2022,3,28,18,5),sRooms.get(2),"Sujet 3",MAILS_PARTICIPANTS)
+            new Meeting(7, new GregorianCalendar(2022, 1, 28, 15, 10)
+                    , new GregorianCalendar(2022, 1, 28, 15, 45), sRooms.get(0), "Sujet 1", MAILS_PARTICIPANTS),
+            new Meeting(8, new GregorianCalendar(2022, 2, 28, 16, 25)
+                    , new GregorianCalendar(2022, 2, 28, 18, 50), sRooms.get(1), "Sujet 2", MAILS_PARTICIPANTS),
+            new Meeting(9, new GregorianCalendar(2022, 3, 28, 17, 20)
+                    , new GregorianCalendar(2022, 3, 28, 18, 5), sRooms.get(2), "Sujet 3", MAILS_PARTICIPANTS)
 
 
     );

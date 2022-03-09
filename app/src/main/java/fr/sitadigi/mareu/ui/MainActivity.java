@@ -1,35 +1,18 @@
 package fr.sitadigi.mareu.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import fr.sitadigi.mareu.R;
@@ -39,7 +22,7 @@ import fr.sitadigi.mareu.model.Room;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
 public class MainActivity extends AppCompatActivity {
-    FloatingActionButton MainBtnAdd;
+
     DatePickerDialog.OnDateSetListener setListener;
     MeetingApiServiceInterface mApiServiceInterface;
     Spinner spinnerRoom;
@@ -51,25 +34,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MainBtnAdd = findViewById(R.id.floatingActionButtonAdd);
-//        mMeetingListSelected = mApiServiceInterface.getMeeting();
 
+//        mMeetingListSelected = mApiServiceInterface.getMeeting();
+       // Injection.getNewInstanceApiService();
         showFragmentListMail();
-        MainBtnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //REPLACE FRAGMENT
-                //AddMailFragment.newInstance();
-               /* AddMailFragment addMailFragment = new AddMailFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_list_mail, addMailFragment ); //give your fragment container id in first parameter
-                transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
-                transaction.commit();
-                Log.d("TAG", "onClick: fragment lancer");*/
-                Intent addMailActivity = new Intent(view.getContext(), AddMailActivity.class);
-                startActivity(addMailActivity);
-            }
-        });
+
     }
 
     void showFragmentListMail() {

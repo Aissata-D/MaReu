@@ -6,8 +6,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.model.Meeting;
+import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.model.Room;
 
 public class MeetingApiServiceImplementation implements MeetingApiServiceInterface {
@@ -15,8 +15,8 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
     public List<Meeting> mMeetings = MeetingGenerator.generatorReunion();
     List<Participant> mailsParticipants = MeetingGenerator.generatorMailsParticipants();
     List<Room> mRooms = MeetingGenerator.generatorRoom();
-    List<String > mDurations = MeetingGenerator.generatoDuration();
-    final  String SELECT_DURATION = "Select Duration";
+    List<String> mDurations = MeetingGenerator.generatoDuration();
+    final String SELECT_DURATION = "Select Duration";
     Calendar startDate = Calendar.getInstance();
     Calendar endDate = Calendar.getInstance();
 
@@ -90,13 +90,13 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
         Calendar cal1 = new GregorianCalendar();
         //dateFormat.format(meeting.getEndDate1().getTime())
         cal1.setTime(startedDate.getTime());
-        for (Meeting meeting: mMeetings) {
+        for (Meeting meeting : mMeetings) {
             Calendar cal2 = new GregorianCalendar();
             cal2.setTime(meeting.getStartDate1().getTime());
 
             boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
                     cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
-            if (sameDay){
+            if (sameDay) {
                 filterByStartDayList.add(meeting);
 
             }
@@ -116,7 +116,7 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
 
     @Override
     public void addInitialTextDuration() {
-        mDurations.add(0,SELECT_DURATION );
+        mDurations.add(0, SELECT_DURATION);
 
     }
 
@@ -124,20 +124,20 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
     public List<Room> getAvailableRoom(Calendar startDate, Calendar endDate) {
         List<Room> availableRooms = new ArrayList<>();
         List<Room> notAvailableRooms = new ArrayList<>();
-        if(startDate== null || endDate==null){
+        if (startDate == null || endDate == null) {
             return availableRooms;
         }
-        for (Meeting meeting:mMeetings) {
+        for (Meeting meeting : mMeetings) {
 
-                if ((startDate.equals(meeting.getStartDate1()) || startDate.after(meeting.getStartDate1()))
-                        && ((startDate.equals(meeting.getEndDate1())) || (startDate.before(meeting.getEndDate1())))) {
-                    notAvailableRooms.add(meeting.getRoom());
-                } else if ((endDate.equals(meeting.getStartDate1()) || endDate.after(meeting.getStartDate1()))
-                        && ((endDate.equals(meeting.getEndDate1())) || (endDate.before(meeting.getEndDate1())))) {
-                    notAvailableRooms.add(meeting.getRoom());
-                }else if(startDate.before(meeting.getStartDate1() )&& endDate.after(meeting.getEndDate1())){
-                    notAvailableRooms.add(meeting.getRoom());
-                }
+            if ((startDate.equals(meeting.getStartDate1()) || startDate.after(meeting.getStartDate1()))
+                    && ((startDate.equals(meeting.getEndDate1())) || (startDate.before(meeting.getEndDate1())))) {
+                notAvailableRooms.add(meeting.getRoom());
+            } else if ((endDate.equals(meeting.getStartDate1()) || endDate.after(meeting.getStartDate1()))
+                    && ((endDate.equals(meeting.getEndDate1())) || (endDate.before(meeting.getEndDate1())))) {
+                notAvailableRooms.add(meeting.getRoom());
+            } else if (startDate.before(meeting.getStartDate1()) && endDate.after(meeting.getEndDate1())) {
+                notAvailableRooms.add(meeting.getRoom());
+            }
         }
         for (Room room : mRooms) {
             if (!notAvailableRooms.contains(room)) {

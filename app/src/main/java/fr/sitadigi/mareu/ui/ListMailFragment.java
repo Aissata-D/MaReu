@@ -3,17 +3,10 @@ package fr.sitadigi.mareu.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-
 import android.app.Fragment;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,12 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -35,8 +33,8 @@ import java.util.List;
 import fr.sitadigi.mareu.R;
 import fr.sitadigi.mareu.di.Injection;
 import fr.sitadigi.mareu.events.DeleteMeetingEvent;
-import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.model.Meeting;
+import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.model.Room;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
@@ -50,6 +48,7 @@ public class ListMailFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    FloatingActionButton MainBtnAdd;
     public static List<Participant> mMailLists;
     public static List<Meeting> sMeetingLists;
     RecyclerView mRecyclerView;
@@ -93,6 +92,7 @@ public class ListMailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_mail, container, false);
         mRecyclerView = view.findViewById(R.id.recyclerview);
+        MainBtnAdd = view.findViewById(R.id.floatingActionButtonAdd);
         //Display menu in fragment
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
@@ -102,6 +102,23 @@ public class ListMailFragment extends Fragment {
         sMeetingLists = mApiServiceInterface.getMeeting();
 
         initRecyclerView();
+
+        MainBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //REPLACE FRAGMENT
+                //AddMailFragment.newInstance();
+               /* AddMailFragment addMailFragment = new AddMailFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_list_mail, addMailFragment ); //give your fragment container id in first parameter
+                transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+                transaction.commit();
+                Log.d("TAG", "onClick: fragment lancer");*/
+                Intent addMailActivity = new Intent(view.getContext(), AddMailActivity.class);
+                startActivity(addMailActivity);
+            }
+        });
+
         return view;
     }
 
@@ -139,7 +156,7 @@ public class ListMailFragment extends Fragment {
     private void resetDate() {
         mApiServiceInterface = Injection.getService();
         List<Meeting> mListReset = mApiServiceInterface.getMeeting();
-        reunionRecyclerViewAdapter = new ReunionRecyclerViewAdapter((FragmentActivity) this.getActivity(),mListReset);
+        reunionRecyclerViewAdapter = new ReunionRecyclerViewAdapter((FragmentActivity) this.getActivity(), mListReset);
         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
         //
     }
@@ -182,61 +199,61 @@ public class ListMailFragment extends Fragment {
                 switch (which) {
                     case 0:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(0)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(0)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 1:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(1)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(1)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 2:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(2)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(2)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 3:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(3)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(3)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 4:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(4)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(4)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 5:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(5)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(5)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 6:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(6)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(6)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 7:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(7)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(7)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 8:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(8)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(8)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;
                     case 9:
                         reunionRecyclerViewAdapter =
-                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(),mApiServiceInterface.filterByRoom(mRooms.get(9)));
+                                new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByRoom(mRooms.get(9)));
                         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
                         dialog.dismiss();
                         break;

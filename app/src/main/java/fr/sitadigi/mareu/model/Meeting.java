@@ -1,8 +1,6 @@
 package fr.sitadigi.mareu.model;
 
 
-import android.text.format.Time;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,8 +9,8 @@ public class Meeting {
     int id;
     Date startDate;
     Date endDate;
-    Calendar startDate1 =Calendar.getInstance();
-    Calendar endDate1=Calendar.getInstance();
+    Calendar startDate1 = Calendar.getInstance();
+    Calendar endDate1 = Calendar.getInstance();
     Room room;
     String subject;
     List<Participant> participants;
@@ -61,9 +59,6 @@ public class Meeting {
     /////////////////GETTER AND SETTER CALENDAR-FIN----------------------------------------------
 
 
-
-
-
     public int getId() {
         return id;
     }
@@ -71,23 +66,24 @@ public class Meeting {
     public void setId(int id) {
         this.id = id;
     }
-/*
-    public Date getStartDate() {
-        return startDate;
-    }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+    /*
+        public Date getStartDate() {
+            return startDate;
+        }
 
-    public Date getEndDate() {
-        return endDate;
-    }
+        public void setStartDate(Date startDate) {
+            this.startDate = startDate;
+        }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-*/
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
+        }
+    */
     public Room getRoom() {
         return room;
     }
