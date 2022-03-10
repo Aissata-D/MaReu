@@ -262,6 +262,19 @@ public class MainActivityTest {
                         isDisplayed()));
         recyclerView.check(matches(isDisplayed()));
     }
+
+     @Test
+    public void clickOn_deleteButton_shouldRemoveItem() {
+         ViewInteraction appCompatImageView = onView(
+                 allOf(withId(R.id.delete_button),
+                         childAtPosition(
+                                 childAtPosition(
+                                         withId(R.id.recyclerview),
+                                         0),
+                                 2),
+                         isDisplayed()));
+         appCompatImageView.perform(click());
+     }
 }
 
 /**

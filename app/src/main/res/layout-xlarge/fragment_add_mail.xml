@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_mail_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:padding="8dp"
+    tools:context=".ui.AddMailFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Spinner
+        android:id="@+id/spinner_participant"
+        android:layout_width="359dp"
+        android:layout_height="57dp"
+
+        android:layout_marginTop="28dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_participant" />
+
+    <Spinner
+        android:id="@+id/spinner_room"
+        android:layout_width="359dp"
+        android:layout_height="57dp"
+
+        android:layout_marginTop="40dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.557"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meetting_startDateLayout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meetting_subject"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="32dp"
+        android:hint="Sujet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_reunion">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meetting_subject1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meetting_startDateLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="216dp"
+        android:layout_height="83dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="24dp"
+        android:hint="Date et heure du debut"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meetting_subject">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meetting_startDateInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Spinner
+        android:id="@+id/spinner_time_duration"
+        android:layout_width="119dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:prompt="@string/select_duration"
+        app:layout_constraintBottom_toBottomOf="@+id/meetting_startDateLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toEndOf="@+id/meetting_startDateLayout"
+        app:layout_constraintTop_toTopOf="@+id/meetting_startDateLayout"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/list_participant"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:layout_margin="16dp"
+
+        android:gravity="top"
+        android:hint="Participant name"
+        android:text="Participant name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_room" />
+
+
+    <Button
+        android:id="@+id/add_reunion"
+        android:layout_width="163dp"
+        android:layout_height="62dp"
+
+
+        android:layout_marginTop="8dp"
+        android:text="Add a meetting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.996"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

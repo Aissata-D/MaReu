@@ -1,7 +1,8 @@
 package fr.sitadigi.mareu.ui;
 
 import android.app.DatePickerDialog;
-import android.app.FragmentTransaction;
+//import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+//import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Room> mRooms;
     private List<Meeting> mMeetingListSelected;
     private Room mRoomSelected;
+    private ListMailFragment mListMailFragment;
+    private AddMailFragment mAddMailFragment;
+    private  DetailMeetingFragment mDetailMeetingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +44,14 @@ public class MainActivity extends AppCompatActivity {
 //        mMeetingListSelected = mApiServiceInterface.getMeeting();
        // Injection.getNewInstanceApiService();
         showFragmentListMail();
+       showFragmentDetailsMeetingOrAddMeetingFragment();
 
     }
 
     void showFragmentListMail() {
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        ListMailFragment listMailFragment = (ListMailFragment) getFragmentManager()
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        ListMailFragment listMailFragment = (ListMailFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.framLayout_list_mail);
         if (listMailFragment == null) {
             listMailFragment = new ListMailFragment();
@@ -57,7 +64,26 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
         Log.d("TAG", "onClick: fragment lancer");
     }
+    void showFragmentDetailsMeetingOrAddMeetingFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+       mAddMailFragment = (AddMailFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.framLayout_add_or_detail);
 
+       mDetailMeetingFragment = (DetailMeetingFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.framLayout_add_or_detail);
+
+        if (mAddMailFragment == null && findViewById(R.id.framLayout_add_or_detail) !=null) {
+            mAddMailFragment = new AddMailFragment();
+
+            transaction.add(R.id.framLayout_add_or_detail, mAddMailFragment);
+
+        } //else transaction.show(mAddMailFragment);
+        //give your fragment container id in first parameter
+       // transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+        transaction.commit();
+
+    }
+    /*
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -66,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
         fm.popBackStack();
 
 
-    }
-
+    }*/
 
     /*
         @Override

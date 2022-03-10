@@ -3,7 +3,8 @@ package fr.sitadigi.mareu.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Fragment;
+//import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -291,6 +293,7 @@ public class ListMailFragment extends Fragment {
         mApiServiceInterface.removeMeeting(event.mMeeting);
         initRecyclerView();
     }
+
 
 
 }

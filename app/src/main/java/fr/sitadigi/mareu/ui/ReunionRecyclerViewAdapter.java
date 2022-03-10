@@ -1,12 +1,16 @@
 package fr.sitadigi.mareu.ui;
 
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+//import android.app.FragmentManager;
+//import android.app.FragmentTransaction;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +43,10 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
     private int mPosition;
     FragmentActivity mFragmentActivity;
     final String POSITION = "POSITION";
+    DetailMeetingFragment detailMeetingFragment ;
+    FrameLayout mFramelayoutListeMeeting;
+    FrameLayout mFramelayoutAddOrDetail;
+
 
     public ReunionRecyclerViewAdapter(FragmentActivity fragmentActivity, List<Meeting> meetings) {
         this.mMeetings = meetings;
@@ -49,6 +57,9 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_mail_item, parent, false);
+        mFramelayoutListeMeeting = view.findViewById(R.id.framLayout_list_mail);
+        mFramelayoutAddOrDetail= view.findViewById(R.id.framLayout_add_or_detail);
+
         return new ViewHolder(view);
     }
 
@@ -91,15 +102,28 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
             public void onClick(View v) {
                 mPosition = holder.getAdapterPosition();
                 //FAIRE UN CALLBACK ?????
-                DetailMeetingFragment detailMeetingFragment = new DetailMeetingFragment();
-                // Put Meeting position in a detailMeetingFragment
-                Bundle bundle = new Bundle();
-                bundle.putInt(POSITION, mPosition);
-                detailMeetingFragment.setArguments(bundle);
+
                 // Start detailMeetingFragment
-                FragmentManager fragmentManager = mFragmentActivity.getFragmentManager();
+                FragmentManager fragmentManager = mFragmentActivity.getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment); //give your fragment container id in first parameter
+
+                 if (detailMeetingFragment == null && mFramelayoutAddOrDetail ==null) {
+                     detailMeetingFragment = new DetailMeetingFragment();
+                     // Put Meeting position in a detailMeetingFragment
+                     Bundle bundle = new Bundle();
+                     bundle.putInt(POSITION, mPosition);
+                     detailMeetingFragment.setArguments(bundle);
+                    transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment);
+            }//give your fragment container id in first parameter
+                else if (detailMeetingFragment == null && mFramelayoutAddOrDetail !=null) {
+                     detailMeetingFragment = new DetailMeetingFragment();
+                     // Put Meeting position in a detailMeetingFragment
+                     Bundle bundle = new Bundle();
+                     bundle.putInt(POSITION, mPosition);
+                     detailMeetingFragment.setArguments(bundle);
+                     transaction.replace(R.id.framLayout_add_or_detail, detailMeetingFragment);
+                 }
+                else transaction.show(detailMeetingFragment);
                 transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
                 transaction.commit();
 
