@@ -1,8 +1,11 @@
 package fr.sitadigi.mareu.ui;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +17,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 //import android.app.Fragment;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -51,18 +55,20 @@ public class AddMailFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     final String SELECT_DURATION = "Select Duration";
+    final String SELECT_ROOM = "Select Room";
     public onButtonAddReunionListener mCallback;
     DatePickerDialog.OnDateSetListener setListener;
     TimePickerDialog.OnTimeSetListener timeSetListener;
     String lisParticipant = "";
     String lisParticipantGlobal = lisParticipant;
-    TextInputEditText mStartDate;
+    MaterialTextView mStartDate;
+    MaterialTextView mAddParticipant;
     TextInputLayout mSubject;
     MaterialTextView mListeParticipant;
     Button mBtnAddReunion;
     List<Participant> mParticipants;
     MeetingApiServiceInterface mApiServiceInterface;
-    Spinner spinnerRoom, spinnerParticipant, spinnerDuration;
+    Spinner spinnerRoom,  spinnerDuration;
     List<Room> mRooms;
     String mDurationSelected;
     boolean isSelectDuration;
@@ -71,6 +77,7 @@ public class AddMailFragment extends Fragment {
     String participant1 = "";
     String participantGlobal1 = "";
     private List<Meeting> mMeetingLists;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -80,6 +87,8 @@ public class AddMailFragment extends Fragment {
     private List<String> mDuration;
     private Room mRoomSelected;
     private List<Participant> mParticipantSelecteds = new ArrayList<>();
+    private String mTablet;
+    private static final String TABLET = "TABLET";
 
     public AddMailFragment() {
         // Required empty public constructor
@@ -106,9 +115,7 @@ public class AddMailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-
+            mTablet = getArguments().getString(TABLET);
         }
     }
 
@@ -117,16 +124,23 @@ public class AddMailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_mail, container, false);
-        mStartDate = view.findViewById(R.id.meetting_startDateInput);
+        mStartDate = view.findViewById(R.id.meetting_startDateTv);
 
         mSubject = view.findViewById(R.id.meetting_subject);
         mListeParticipant = view.findViewById(R.id.list_participant);
         //mAddParticipant = view.findViewById(R.id.add_participant_text);
         mBtnAddReunion = view.findViewById(R.id.add_reunion);
         spinnerRoom = view.findViewById(R.id.spinner_room);
-        spinnerParticipant = view.findViewById(R.id.spinner_participant);
         spinnerDuration = view.findViewById(R.id.spinner_time_duration);
+        mAddParticipant =view.findViewById(R.id.tv_add_participant);
         mApiServiceInterface = Injection.getService();
+
+        mAddParticipant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAlertDialogAddParticipant(getActivity());
+            }
+        });
 
 
 ///SPINNER DURATION---------------------------
@@ -140,7 +154,7 @@ public class AddMailFragment extends Fragment {
 
         // Layout for All ROWs of Spinner.  (Optional for ArrayAdapter).
         adapterDuration.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.spinnerDuration.setPrompt("Select duration11");
+       // this.spinnerDuration.setPrompt("Select \n duration11");
         this.spinnerDuration.setAdapter(adapterDuration);
         int lastIndex = 0;
         spinnerDuration.setSelection(lastIndex);
@@ -176,6 +190,7 @@ public class AddMailFragment extends Fragment {
 
         //SPINNER DURATION FIN -------------------------------------
 
+     /*
         // Spiner Participant
 
         mParticipants = mApiServiceInterface.getMailsParticipant();
@@ -224,7 +239,7 @@ public class AddMailFragment extends Fragment {
                     participantGlobal1 = participantGlobal1 + participant1;
                 }
             }
-        });
+        });*/
 
         init();
         return view;
@@ -246,20 +261,40 @@ public class AddMailFragment extends Fragment {
             public void onClick(View view) {
                 mMeetingLists = mApiServiceInterface.getMeeting();
                 boolean bSubject = mSubject.getEditText().getText().toString().trim().length() > 0;
-
-                if (mMeetingLists != null && mCompareStartDate != null && mCompareEndDate != null
-                        && mRoomSelected != null && bSubject && mParticipantSelecteds != null
-                        && !mDurationSelected.equals(mDuration.get(0))) {
-                    Meeting meeting = new Meeting(mMeetingLists.size(), mCompareStartDate, mCompareEndDate
-                            , mRoomSelected
-                            , mSubject.getEditText().getText().toString()
-                            , mParticipantSelecteds);
-                    mApiServiceInterface.addMeeting(meeting);
-
-                    mCallback.OnButtonAddReunionClick(view);
+               /* if ( mCompareStartDate == null ||mCompareEndDate == null) {
+                    Toast.makeText(getActivity(),"Veillez remplir une date et heure de debut " ,
+                            Toast.LENGTH_SHORT).show();
                 }
-            }
+                if ( mRoomSelected == null ) {
+                    Toast.makeText(getActivity(),"Veillez selectionner une salle " ,
+                            Toast.LENGTH_SHORT).show();
+                }
+                if ( mParticipantSelecteds == null ) {
+                    Toast.makeText(getActivity(),"Veillez selectionner les participants " ,
+                            Toast.LENGTH_SHORT).show();
+                }
+                if ( mDurationSelected.equals(mDuration.get(0)) ) {
+                    Toast.makeText(getActivity(),"Veillez selectionner la durée  " ,
+                            Toast.LENGTH_SHORT).show();
+                }*/
 
+                if (mRoomSelected != null) {
+                    if (mMeetingLists != null && mCompareStartDate != null && mCompareEndDate != null
+                            && !mRoomSelected.equals(mRooms.get(0)) && bSubject && mParticipantSelecteds.size() != 0
+                            && !mDurationSelected.equals(mDuration.get(0))) {
+                        Meeting meeting = new Meeting(mMeetingLists.size(), mCompareStartDate, mCompareEndDate
+                                , mRoomSelected
+                                , mSubject.getEditText().getText().toString()
+                                , mParticipantSelecteds);
+                        mApiServiceInterface.addMeeting(meeting);
+                        //if ( mTablet != "TABLET") {
+                        mCallback.OnButtonAddReunionClick(view);
+                        //}
+                    } else Toast.makeText(getActivity(), "VEUILLER REMPLIR TOUS LES CHAMPS  ",
+                            Toast.LENGTH_SHORT).show();
+                } else Toast.makeText(getActivity(), "VEUILLER REMPLIR TOUS LES CHAMPS  ",
+                        Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Set StartDate
@@ -275,7 +310,7 @@ public class AddMailFragment extends Fragment {
 
     }
 
-    public void setDateAndHour(TextInputEditText field) {
+    public void setDateAndHour(MaterialTextView field) {
         Calendar date;
         //public void showDateTimePicker() {
         final Calendar currentDate = new GregorianCalendar();
@@ -322,10 +357,16 @@ public class AddMailFragment extends Fragment {
 
     public void availableRoom() {
         mApiServiceInterface = Injection.getService();
+        List<Room>mRoomsGlobal= mApiServiceInterface.getRoom();
+        if (!mRoomsGlobal.get(0).getNameRoom().equals(SELECT_ROOM) ) {
+            mApiServiceInterface.addInitialTextRoom();
+        }
+
         boolean bStartDate = mStartDate.getText().toString().trim().length() > 0;
         if (mCompareStartDate != null && mCompareEndDate != null
                 && bStartDate && isSelectDuration) {
             mRooms = mApiServiceInterface.getAvailableRoom(mCompareStartDate, mCompareEndDate);
+
         } else mRooms = new ArrayList<>();
         // mRooms= new ArrayList<>();
         ArrayAdapter<Room> adapter = new ArrayAdapter<Room>(this.getActivity(),
@@ -363,6 +404,88 @@ public class AddMailFragment extends Fragment {
     public void createCallbackToParentActivity() {
         mCallback = (onButtonAddReunionListener) getActivity();
     }
+
+    // DIALOGUE PARTICIPANT
+
+    final boolean[] checkedInfos = new boolean[]{false, false, false, false};
+    public  void showAlertDialogAddParticipant(final Activity activity)  {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        mParticipants = mApiServiceInterface.getMailsParticipant();
+        // Set Title.
+        builder.setTitle("Select participant");
+
+        // Add a list
+        final String[] participant = {mParticipants.get(0).getNameParticipant(),
+                mParticipants.get(1).getNameParticipant(), mParticipants.get(2).getNameParticipant(),
+                mParticipants.get(3).getNameParticipant()};
+
+         // Sheep
+
+
+        builder.setMultiChoiceItems(participant, checkedInfos, new DialogInterface.OnMultiChoiceClickListener()  {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                checkedInfos[which] = isChecked;
+                for (int i = 0; i < participant.length; i++) {
+                    if (checkedInfos[i] && !mParticipantSelecteds.contains(mParticipants.get(i))) {
+                        mParticipantSelecteds.add(mParticipants.get(i));
+                    } else if(!checkedInfos[i] && mParticipantSelecteds.contains(mParticipants.get(i))) {
+                    mParticipantSelecteds.remove(mParticipants.get(i));}
+
+                }
+            }
+        });
+
+        //
+        builder.setCancelable(true);
+      //  builder.setIcon(R.drawable.ic_baseline_delete_24);
+
+        // Create "Yes" button with OnClickListener.
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Close Dialog
+                dialog.dismiss();
+
+                String s= null;
+                for(int i=0; i< participant.length;i++)  {
+                    if(checkedInfos[i]) {
+                        if(s == null)  {
+                            s = participant[i];
+
+                           // mParticipantSelecteds.add(mParticipants.get(i));
+                        } else {
+                            s+= ", " + participant[i];
+                        }
+                    }
+                }
+                s = s == null? "":s;
+
+                // Do something, for example: Call a method of Activity...
+
+                mListeParticipant.setText(s);
+            }
+        });
+
+        // Create "Cancel" button with OnClickListener.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Toast.makeText(activity,"You choose Cancel button",
+                        Toast.LENGTH_SHORT).show();
+                //  Cancel
+                dialog.cancel();
+            }
+        });
+
+        // Create AlertDialog:
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+
+
+    //FIN DIALOGUE PARTICIPANT
 
     public void setEndDate() {
         // mCompareEndDate = new GregorianCalendar();

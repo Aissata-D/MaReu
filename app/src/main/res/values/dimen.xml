@@ -2,13 +2,13 @@
 <resources>
 
     <!-- TextViews -->
-    <dimen name="size_text_sujet_time_place">20sp</dimen>
+    <dimen name="size_text_sujet_time_place">17sp</dimen>
     <dimen name="size_text_mail_participant">17sp</dimen>
     <dimen name="padding_title">40dip</dimen>
 
     <!-- TextViews _land-->
-    <dimen name="size_text_land_sujet_time_place">22sp</dimen>
-    <dimen name="size_text_land_mail_participant">20sp</dimen>
+    <dimen name="size_text_land_tablet_sujet_time_place">22sp</dimen>
+    <dimen name="size_text_land_tablet_mail_participant">20sp</dimen>
 
     <!-- Images -->
     <dimen name="size_image_height">200dip</dimen>

@@ -35,5 +35,6 @@ public class AddMailActivity extends AppCompatActivity implements AddMailFragmen
     public void OnButtonAddReunionClick(View view) {
         Log.d("TAG", "OnButtonAddReunionClick: Callback reussi!!!");
         finish();
+
     }
 }

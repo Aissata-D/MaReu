@@ -17,6 +17,7 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
     List<Room> mRooms = MeetingGenerator.generatorRoom();
     List<String> mDurations = MeetingGenerator.generatoDuration();
     final String SELECT_DURATION = "Select Duration";
+    final String SELECT_ROOM = "Select Room";
     Calendar startDate = Calendar.getInstance();
     Calendar endDate = Calendar.getInstance();
 
@@ -104,10 +105,10 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
         return filterByStartDayList;
     }
 
-    @Override
+  /*  @Override
     public List<Meeting> resetMeetingList() {
         return mMeetings;
-    }
+    }*/
 
     @Override
     public List<String> getDuration() {
@@ -117,6 +118,15 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
     @Override
     public void addInitialTextDuration() {
         mDurations.add(0, SELECT_DURATION);
+
+
+    }
+
+    @Override
+    public void addInitialTextRoom() {
+        Room roomInitialText = new Room(0,SELECT_ROOM);
+        if (!mRooms.contains(roomInitialText)){
+        mRooms.add(0, roomInitialText);}
 
     }
 
@@ -147,11 +157,11 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
         return availableRooms;
     }
 
-    @Override
+    /*@Override
     public Calendar setCalendar(int Year, int Month, int Day, int Hour, int Minute) {
         Calendar cal = Calendar.getInstance();
         cal.set(Year, Month, Day, Hour, Minute);
         return cal;
 
-    }
+    }*/
 }

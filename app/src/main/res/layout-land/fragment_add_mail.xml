@@ -11,15 +11,18 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <Spinner
-        android:id="@+id/spinner_participant"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_add_participant"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="295dp"
         android:layout_height="55dp"
-
         android:layout_marginTop="12dp"
+
         android:layout_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.764"
+        android:hint="Select participants"
+        android:textSize="@dimen/size_text_mail_participant"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/list_participant"
         app:layout_constraintTop_toBottomOf="@+id/spinner_room" />
 
@@ -29,93 +32,94 @@
         android:layout_height="58dp"
 
         android:layout_marginTop="44dp"
-        android:layout_marginEnd="32dp"
         android:layout_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/spinner_time_duration" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/meetting_subject"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="299dp"
-        android:layout_height="82dp"
 
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="259dp"
+        android:layout_height="81dp"
         android:layout_marginTop="16dp"
-        android:hint="Sujet"
-        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toBottomOf="@+id/add_reunion">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="71dp" />
-
+            android:layout_height="71dp"
+            android:hint="Sujet"
+            android:textSize="@dimen/size_text_sujet_time_place" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/meetting_startDateLayout"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/meetting_startDateTv"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="196dp"
+        android:layout_width="174dp"
         android:layout_height="79dp"
         android:layout_margin="16dp"
         android:layout_marginTop="28dp"
+        android:gravity="center"
         android:hint="Date et heure du debut"
+        android:textSize="@dimen/size_text_mail_participant"
         app:layout_constraintEnd_toStartOf="@+id/spinner_time_duration"
         app:layout_constraintHorizontal_bias="0.463"
         app:layout_constraintStart_toEndOf="@+id/meetting_subject"
-        app:layout_constraintTop_toBottomOf="@+id/add_reunion">
+        app:layout_constraintTop_toBottomOf="@+id/add_reunion" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/meetting_startDateInput"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="450dp"
-            tools:layout_editor_absoluteY="79dp" />
-
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
         android:id="@+id/spinner_time_duration"
-        android:layout_width="114dp"
-        android:layout_height="60dp"
+        android:layout_width="158dp"
+        android:layout_height="65dp"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="40dp"
         android:layout_weight="1"
         android:prompt="@string/select_duration"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/add_reunion" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/list_participant"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="267dp"
-        android:layout_height="111dp"
-        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
 
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="8dp"
+        android:textSize="@dimen/size_text_mail_participant"
+        android:layout_marginTop="60dp"
         android:gravity="top"
         android:hint="Participant name"
-        android:text="Participant name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/spinner_room"
-        app:layout_constraintHorizontal_bias="0.123"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meetting_subject"
-        app:layout_constraintVertical_bias="0.28" />
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/meetting_subject" />
 
     <Button
         android:id="@+id/add_reunion"
         android:layout_width="161dp"
         android:layout_height="57dp"
-
-
         android:layout_marginTop="8dp"
         android:text="Add a meetting"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintHorizontal_bias="0.996"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="649dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

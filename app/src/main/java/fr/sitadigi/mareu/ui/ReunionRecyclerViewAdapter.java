@@ -6,11 +6,12 @@ package fr.sitadigi.mareu.ui;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import fr.sitadigi.mareu.R;
 import fr.sitadigi.mareu.di.Injection;
@@ -40,16 +42,21 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
     MeetingApiServiceInterface mApiServiceInterface;
 
     List<Meeting> mMeetings = new ArrayList<>();
-    private int mPosition;
+    private int mPosition =2;
     FragmentActivity mFragmentActivity;
     final String POSITION = "POSITION";
+    public String mTablet= "";
     DetailMeetingFragment detailMeetingFragment ;
-    FrameLayout mFramelayoutListeMeeting;
-    FrameLayout mFramelayoutAddOrDetail;
+    Drawable circleRandom;
+    int[] RandomTab= {R.drawable.circle, R.drawable.circle1
+            ,R.drawable.circle2, R.drawable.circle3};
+    final Random rand = new Random();
 
 
-    public ReunionRecyclerViewAdapter(FragmentActivity fragmentActivity, List<Meeting> meetings) {
+
+    public ReunionRecyclerViewAdapter(FragmentActivity fragmentActivity, List<Meeting> meetings, String tablet) {
         this.mMeetings = meetings;
+        this.mTablet = tablet;
         this.mFragmentActivity = fragmentActivity;
     }
 
@@ -57,8 +64,12 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_mail_item, parent, false);
-        mFramelayoutListeMeeting = view.findViewById(R.id.framLayout_list_mail);
-        mFramelayoutAddOrDetail= view.findViewById(R.id.framLayout_add_or_detail);
+        int RandomCircle = rand.nextInt(RandomTab.length);
+        circleRandom= view.getResources().getDrawable(RandomTab[RandomCircle]);
+
+      //  mFramelayoutListeMeeting = view.findViewById(R.id.framLayout_list_mail);
+        //mFramelayoutAddOrDetail= view.findViewById(R.id.framLayout_add_or_detail);
+       // findViewById(R.id.framLayout_add_or_detail)
 
         return new ViewHolder(view);
     }
@@ -66,6 +77,7 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mApiServiceInterface = Injection.getService();
+        // mPosition = position;
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         //Get Meeting
         //  mMeetings = mApiServiceInterface.getMeeting();
@@ -89,6 +101,8 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
 
         }
         holder.mAllMail.setText(lisParticipantGlobal);
+
+        holder.mCircle.setImageDrawable(circleRandom);
         holder.mBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,30 +114,54 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPosition = holder.getAdapterPosition();
                 //FAIRE UN CALLBACK ?????
 
+
+
                 // Start detailMeetingFragment
+  //              detailMeetingFragment = (DetailMeetingFragment) mFragmentActivity.getSupportFragmentManager()
+//                        .findFragmentById(R.id.framLayout_list_mail);
                 FragmentManager fragmentManager = mFragmentActivity.getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-                 if (detailMeetingFragment == null && mFramelayoutAddOrDetail ==null) {
-                     detailMeetingFragment = new DetailMeetingFragment();
-                     // Put Meeting position in a detailMeetingFragment
-                     Bundle bundle = new Bundle();
-                     bundle.putInt(POSITION, mPosition);
-                     detailMeetingFragment.setArguments(bundle);
-                    transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment);
-            }//give your fragment container id in first parameter
-                else if (detailMeetingFragment == null && mFramelayoutAddOrDetail !=null) {
-                     detailMeetingFragment = new DetailMeetingFragment();
-                     // Put Meeting position in a detailMeetingFragment
-                     Bundle bundle = new Bundle();
-                     bundle.putInt(POSITION, mPosition);
-                     detailMeetingFragment.setArguments(bundle);
-                     transaction.replace(R.id.framLayout_add_or_detail, detailMeetingFragment);
-                 }
-                else transaction.show(detailMeetingFragment);
+              /*   /// test
+
+                Bundle bundle = new Bundle();
+                bundle.putInt(POSITION, mPosition);
+                detailMeetingFragment = new DetailMeetingFragment();
+
+                detailMeetingFragment.setArguments(bundle);
+                transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment);
+
+                transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+                transaction.commit();
+                //fin
+                */
+                //if written, this transaction will be added to backstack
+                if ( mTablet!= "TABLET"){
+                    mPosition = holder.getAdapterPosition();
+                    if (detailMeetingFragment == null ) {
+                        detailMeetingFragment = new DetailMeetingFragment();
+                        // Put Meeting position in a detailMeetingFragment
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(POSITION, mPosition);
+                        detailMeetingFragment.setArguments(bundle);
+                        transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment);
+                    }//give your fragment container id in first parameter
+                   // else {transaction.show(detailMeetingFragment);}
+
+                }else if(mTablet== "TABLET"){
+                    mPosition = holder.getAdapterPosition();
+
+                    //if (detailMeetingFragment == null) {
+                        detailMeetingFragment = new DetailMeetingFragment();
+                        // Put Meeting position in a detailMeetingFragment
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(POSITION, mPosition);
+                        detailMeetingFragment.setArguments(bundle);
+                        transaction.replace(R.id.framLayout_add_or_detail, detailMeetingFragment);
+                    //}else {transaction.show(detailMeetingFragment);}
+                }
                 transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
                 transaction.commit();
 
@@ -144,14 +182,20 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         TextView mTextReunion;
         MaterialTextView mAllMail;
         ImageView mBtnDelete;
+        ImageView mCircle;
+       // FrameLayout mFramelayoutListeMeeting;
+        //FrameLayout mFramelayoutAddOrDetail;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mTextReunion = itemView.findViewById(R.id.all_text);
             mTime = itemView.findViewById(R.id.spinner_time_duration);
-            mDate = itemView.findViewById(R.id.meetting_startDateLayout);
+            mDate = itemView.findViewById(R.id.meetting_startDateTv);
             mAllMail = itemView.findViewById(R.id.meetting_all_email_item);
             mBtnDelete = itemView.findViewById(R.id.delete_button);
+            mCircle = itemView.findViewById(R.id.imageView_cercle);
+           // mFramelayoutListeMeeting = itemView.findViewById(R.id.framLayout_list_mail);
+            //mFramelayoutAddOrDetail= itemView.findViewById(R.id.framLayout_add_or_detail);
 
 
         }

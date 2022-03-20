@@ -20,9 +20,9 @@
             android:backgroundTint="#3F51B5"
             android:gravity="center"
             android:text="DETAILS DE LA REUNION"
-            android:textStyle="bold"
-            android:textSize="25sp"
             android:textColor="@color/red"
+            android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.529"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,69 +30,71 @@
 
         <TextView
             android:id="@+id/sujet_detail"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
             android:text="sujet"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_detail" />
 
         <TextView
             android:id="@+id/salle_detail"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
             android:text="salle"
-            android:textStyle="bold"
-            android:textSize="20sp"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sujet_detail" />
 
         <TextView
             android:id="@+id/heure_debut_detail"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
             android:text="heure debut"
-            android:textStyle="bold"
-            android:textSize="20sp"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/salle_detail" />
 
         <TextView
             android:id="@+id/heure_fin_detail"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
             android:text="heure fin"
-            android:textStyle="bold"
-            android:textSize="20sp"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/heure_debut_detail" />
 
         <TextView
             android:id="@+id/liste_participant_details"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
-            android:layout_marginTop="68dp"
+            android:gravity="left"
             android:text="Liste des participants"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/heure_fin_detail" />
+            app:layout_constraintStart_toStartOf="@+id/guideline8"
+            app:layout_constraintTop_toBottomOf="@+id/title_detail" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="425dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

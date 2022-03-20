@@ -26,7 +26,7 @@ import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
  */
 public class DetailMeetingFragment extends Fragment {
     final String POSITION = "POSITION";
-    private int mPosition;
+    private int mPosition = 1;
     MeetingApiServiceInterface mApiServiceInterface;
     private List<Meeting> mMeetingLists;
 

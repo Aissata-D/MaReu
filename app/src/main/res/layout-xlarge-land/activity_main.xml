@@ -5,14 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".ui.MainActivity">
+    android:background="#C5C7C4"
+    tools:context=".ui.MainActivity"
+    >
 
-
+<androidx.cardview.widget.CardView
+    android:layout_weight="50"
+    android:layout_width="0px"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="16dp">
 
     <FrameLayout
         android:id="@+id/framLayout_list_mail"
-android:layout_weight="50"
-        android:layout_width="0px"
+
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
 
@@ -20,19 +28,28 @@ android:layout_weight="50"
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
-    <FrameLayout
-        android:id="@+id/framLayout_add_or_detail"
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
         android:layout_weight="50"
         android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="16dp">
+
+    <FrameLayout
+        android:id="@+id/framLayout_add_or_detail"
+
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
     </FrameLayout>
-
+    </androidx.cardview.widget.CardView>
 
 
 

@@ -35,6 +35,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
@@ -51,12 +52,13 @@ import static org.hamcrest.core.IsNull.notNullValue;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class AllActivityInstrumentedTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
     MeetingApiServiceInterface service;
     private MainActivity mActivity;
-// Class add by espresso record
+
+    // Class add by espresso record
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
 
@@ -124,9 +126,22 @@ public class MainActivityTest {
                 .check(matches(isDisplayed()));
     }
 
-
     @Test
     public void field_to_add_meeting_shouldNotBeEmpty() {
+        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.floatingActionButtonAdd), isDisplayed()))
+                .perform(click());
+
+        onView(ViewMatchers.withId(R.id.add_reunion))
+                .perform(click());
+
+        onView(ViewMatchers.withId(R.id.add_mail_fragment))
+                .check(matches(isDisplayed()));
+
+
+    }
+
+    @Test
+    public void btnAddMeeting_run() {
         onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.floatingActionButtonAdd), isDisplayed()))
                 .perform(click());
 
@@ -134,9 +149,10 @@ public class MainActivityTest {
         onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.meetting_subject1),
                 isDisplayed())).perform(replaceText("Sujet test"), closeSoftKeyboard());
 
-        ViewInteraction textInputEditText2 = onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.meetting_startDateInput),
+        // clic datePicker
+        ViewInteraction textInputEditText2 = onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.meetting_startDateTv),
                 isDisplayed()));
-        textInputEditText2.perform(click(), doubleClick());
+        textInputEditText2.perform(click());
         //Select current time
         ViewInteraction materialButton = onView(
                 allOf(withId(android.R.id.button1), withText("OK"),
@@ -157,16 +173,10 @@ public class MainActivityTest {
 
         materialButton2.perform(scrollTo(), click());
 
-        ViewInteraction appCompatSpinner = onView(
-                allOf(withId(R.id.spinner_time_duration),
-                        childAtPosition(
-                                allOf(withId(R.id.add_mail_fragment),
-                                        childAtPosition(
-                                                withId(R.id.framLayout_add_mail),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatSpinner.perform(click());
+        // click spiner duration
+        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.spinner_time_duration), isDisplayed()))
+                .perform(click());
+
 
         DataInteraction appCompatCheckedTextView = onData(anything())
                 .inAdapterView(childAtPosition(
@@ -174,6 +184,57 @@ public class MainActivityTest {
                         0))
                 .atPosition(2);
         appCompatCheckedTextView.perform(click());
+
+
+        // Add Room
+
+        ViewInteraction appCompatSpinner2 = onView(
+                allOf(withId(R.id.spinner_room),
+                        childAtPosition(
+                                allOf(withId(R.id.add_mail_fragment),
+                                        childAtPosition(
+                                                withId(R.id.framLayout_add_mail),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        appCompatSpinner2.perform(click());
+
+        DataInteraction appCompatCheckedTextView2 = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(1);
+        appCompatCheckedTextView2.perform(click());
+
+        // Add Participant
+        ViewInteraction materialTextView2 = onView(
+                allOf(withId(R.id.tv_add_participant),
+                        childAtPosition(
+                                allOf(withId(R.id.add_mail_fragment),
+                                        childAtPosition(
+                                                withId(R.id.framLayout_add_mail),
+                                                0)),
+                                5),
+                        isDisplayed()));
+        materialTextView2.perform(click());
+
+        DataInteraction appCompatCheckedTextView3 = onData(anything())
+                .inAdapterView(allOf(withClassName(is("com.android.internal.app.AlertController$RecycleListView")),
+                        childAtPosition(
+                                withClassName(is("android.widget.FrameLayout")),
+                                0)))
+                .atPosition(0);
+        appCompatCheckedTextView3.perform(click());
+
+        ViewInteraction materialButton3 = onView(
+                allOf(withId(android.R.id.button1), withText("OK"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                3)));
+        materialButton3.perform(scrollTo(), click());
+
 
         // Click on add meeting button
         onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.add_reunion), isDisplayed()))
@@ -190,46 +251,97 @@ public class MainActivityTest {
     public void clickOnMenu_run() {
 
         onView(allOf(withContentDescription("More options"),
+                childAtPosition(
                         childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.action_bar),
-                                        1),
-                                0),
-                        isDisplayed())).perform(click());
+                                withId(R.id.action_bar),
+                                1),
+                        0),
+                isDisplayed())).perform(click());
 
-         onView(
+        onView(
                 allOf(withId(R.id.title), withText("Filter by date"),
                         withParent(withParent(withId(R.id.content))),
                         isDisplayed())).check(matches(isDisplayed()));
 
         onView(allOf(withId(R.id.title), withText("Filter by room"),
-                        withParent(withParent(withId(R.id.content))),
-                        isDisplayed())).check(matches(isDisplayed()));
+                withParent(withParent(withId(R.id.content))),
+                isDisplayed())).check(matches(isDisplayed()));
 
         onView(allOf(withId(R.id.title), withText("Filter reset"),
-                        withParent(withParent(withId(R.id.content))),
-                        isDisplayed())).check(matches(isDisplayed()));
+                withParent(withParent(withId(R.id.content))),
+                isDisplayed())).check(matches(isDisplayed()));
     }
 
     @Test
-    public void clickOnItemMenu_filterByDate_run() {
-         onView(allOf(withContentDescription("More options"),
+    public void clickOnItemMenu_filterByRoom_run() {
+        ViewInteraction overflowMenuButton = onView(
+                allOf(withContentDescription("More options"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.action_bar),
                                         1),
                                 0),
-                        isDisplayed())).perform(click());
+                        isDisplayed()));
+        overflowMenuButton.perform(click());
 
-    onView(allOf(withId(R.id.title), withText("Filter by date"),
+        ViewInteraction materialTextView = onView(
+                allOf(withId(R.id.title), withText("Filter by room"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.content),
                                         0),
                                 0),
-                        isDisplayed())).perform(click());
+                        isDisplayed()));
+        materialTextView.perform(click());
 
-       onView(allOf(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class), isDisplayed())).check(matches(isDisplayed()));
+        DataInteraction appCompatCheckedTextView = onData(anything())
+                .inAdapterView(allOf(withClassName(is("com.android.internal.app.AlertController$RecycleListView")),
+                        childAtPosition(
+                                withClassName(is("android.widget.FrameLayout")),
+                                0)))
+                .atPosition(0);
+        appCompatCheckedTextView.perform(click());
+
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.recyclerview),
+                        withParent(withParent(withId(R.id.fragment_main_recyclerview))),
+                        isDisplayed()));
+        recyclerView.check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void clickOnItemMenu_filterByDate_run() {
+        onView(allOf(withContentDescription("More options"),
+                childAtPosition(
+                        childAtPosition(
+                                withId(R.id.action_bar),
+                                1),
+                        0),
+                isDisplayed())).perform(click());
+
+        onView(allOf(withId(R.id.title), withText("Filter by date"),
+                childAtPosition(
+                        childAtPosition(
+                                withId(R.id.content),
+                                0),
+                        0),
+                isDisplayed())).perform(click());
+
+        ViewInteraction materialButton = onView(
+                allOf(withId(android.R.id.button1), withText("OK"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                3)));
+        materialButton.perform(scrollTo(), click());
+
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.recyclerview),
+                        withParent(withParent(withId(R.id.fragment_main_recyclerview))),
+                        isDisplayed()));
+        recyclerView.check(matches(isDisplayed()));
+
 
     }
 
@@ -263,63 +375,28 @@ public class MainActivityTest {
         recyclerView.check(matches(isDisplayed()));
     }
 
-     @Test
+    @Test
     public void clickOn_deleteButton_shouldRemoveItem() {
-         ViewInteraction appCompatImageView = onView(
-                 allOf(withId(R.id.delete_button),
-                         childAtPosition(
-                                 childAtPosition(
-                                         withId(R.id.recyclerview),
-                                         0),
-                                 2),
-                         isDisplayed()));
-         appCompatImageView.perform(click());
-     }
-}
 
-/**
- * When we delete an item, the item is no more shown
- */
-
-
-
-  /*  @Test
-    public void myNeighboursList_deleteAction_shouldRemoveItem() {
-int mRecyclerviewSize = service.getMeeting().size();
-        ViewInteraction appCompatImageView = onView(
-                allOf(withId(R.id.delete_button),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.recyclerview),
-                                        0),
-                                2),
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.all_text), withText("Sujet 1 - 15h10 - Salle 1"),
+                        withParent(withParent(withId(R.id.recyclerview))),
                         isDisplayed()));
+      //  textView.check(matches(withText("Sujet 1 - 15h10 - Salle 1")));
+
+        ViewInteraction appCompatImageView = onView(
+                allOf(withId(R.id.delete_button),isDisplayed(),
+                       childAtPosition( withId(R.id.recyclerview), 0),  isDisplayed()));
         appCompatImageView.perform(click());
 
-        // Given : We remove the element at position 2
-        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.recyclerview), isDisplayed())).check(withItemCount(mRecyclerviewSize));
-        // When perform a click on a delete icon
-        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.recyclerview), isDisplayed()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
-        // Then : the number of element is 11
-        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.recyclerview), isDisplayed())).check(withItemCount(mRecyclerviewSize - 1));
-    }*/
-
- /*@Test
-    public void mainActivityTest() {
-        ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.floatingActionButtonAdd),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
+        ViewInteraction textView1 = onView(
+                allOf(withId(R.id.all_text), withText("Sujet 1 - 15h10 - Salle 1"),
+                        withParent(withParent(withId(R.id.recyclerview))),
                         isDisplayed()));
-        floatingActionButton.perform(click());
-
-        ViewInteraction viewGroup = onView(
-                allOf(withParent(withParent(withId(R.id.framLayout_list_mail))),
-                        isDisplayed()));
-        viewGroup.check(matches(isDisplayed()));
+        textView1.check(doesNotExist());
     }
-    */
+}
+
+
+
+

@@ -13,17 +13,15 @@
 
         <TextView
             android:id="@+id/title_detail"
-            android:layout_width="394dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
             android:backgroundTint="#3F51B5"
             android:gravity="center"
             android:text="DETAILS DE LA REUNION"
             android:textColor="@color/red"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.529"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,44 +47,46 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/title_detail" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/sujet_detail" />
 
         <TextView
             android:id="@+id/heure_debut_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
-            android:text="heure debut"
+
+            android:hint="heure debut"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/sujet_detail" />
+            app:layout_constraintTop_toBottomOf="@+id/salle_detail" />
 
         <TextView
             android:id="@+id/heure_fin_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
-            android:text="heure fin"
+            android:hint="heure fin"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/salle_detail" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/heure_debut_detail" />
 
         <TextView
             android:id="@+id/liste_participant_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
-            android:text="Liste des participants"
+            android:layout_marginStart="24dp"
+            android:hint="Liste des participants"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/heure_debut_detail" />
+            app:layout_constraintTop_toBottomOf="@+id/heure_fin_detail" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"

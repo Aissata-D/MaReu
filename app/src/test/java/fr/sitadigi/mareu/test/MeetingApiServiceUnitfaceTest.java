@@ -118,7 +118,7 @@ public class MeetingApiServiceUnitfaceTest {
 
         // List<Meeting> meetings1= service.getMeeting();
         List<Meeting> meetings = service.filterByStartDay(dateDebut1);
-        assertEquals(1, meetings.size());
+        assertEquals(2, meetings.size());
         assertTrue(meetings.contains(service.getMeeting().get(0)));
         assertFalse(meetings.contains(service.getMeeting().get(1)));
         assertFalse(meetings.contains(service.getMeeting().get(2)));
@@ -133,10 +133,7 @@ public class MeetingApiServiceUnitfaceTest {
     public void getAvailableRoom() {
         Calendar dateDebut1 = new GregorianCalendar(2022, 1, 28, 15, 10);
         Calendar dateFin1 = new GregorianCalendar(2022, 1, 28, 15, 45);
-        // Calendar dateFin1 = Calendar.getInstance();
-        //dateDebut1.set();
-        //dateFin1.set(2022,1,28,15,45);
-        // creer les meeting à tester ici
+        
         List<Room> avalaibleRoom = service.getAvailableRoom(dateDebut1, dateFin1);// Date of meeting get(0)
         assertFalse(avalaibleRoom.contains(service.getMeeting().get(0).getRoom()));
         assertTrue(avalaibleRoom.contains(service.getMeeting().get(1).getRoom()));
@@ -149,14 +146,5 @@ public class MeetingApiServiceUnitfaceTest {
         assertTrue(avalaibleRoom1.contains(service.getMeeting().get(2).getRoom()));
 
 
-    }
-
-    @Test
-    public void resetMeetingList() {
-    }
-
-
-    @Test
-    public void setCalendar() {
     }
 }

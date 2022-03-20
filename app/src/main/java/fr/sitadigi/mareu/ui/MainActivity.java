@@ -2,6 +2,7 @@ package fr.sitadigi.mareu.ui;
 
 import android.app.DatePickerDialog;
 //import android.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,8 +25,9 @@ import fr.sitadigi.mareu.model.Meeting;
 import fr.sitadigi.mareu.model.Room;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddMailFragment.onButtonAddReunionListener {
 
+    private static final String TABLET = "TABLET" ;
     DatePickerDialog.OnDateSetListener setListener;
     MeetingApiServiceInterface mApiServiceInterface;
     Spinner spinnerRoom;
@@ -44,43 +46,77 @@ public class MainActivity extends AppCompatActivity {
 //        mMeetingListSelected = mApiServiceInterface.getMeeting();
        // Injection.getNewInstanceApiService();
         showFragmentListMail();
-       showFragmentDetailsMeetingOrAddMeetingFragment();
+      // showFragmentDetailsMeetingOrAddMeetingFragment();
 
     }
 
     void showFragmentListMail() {
+       // FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentById(R.id.framLayout_add_or_detail);
+        if(fragment instanceof AddMailFragment) {
+            mAddMailFragment = (AddMailFragment) fragment;
+        }else {
+            mDetailMeetingFragment = (DetailMeetingFragment)fragment;
+        }
+
         ListMailFragment listMailFragment = (ListMailFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.framLayout_list_mail);
-        if (listMailFragment == null) {
-            listMailFragment = new ListMailFragment();
+        if(findViewById(R.id.framLayout_add_or_detail) ==null){
+            if (listMailFragment == null ) {
+                listMailFragment = new ListMailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(TABLET, "TELEPHONE");
+                listMailFragment.setArguments(bundle);
 
-            transaction.add(R.id.framLayout_list_mail, listMailFragment);
+                transaction.add(R.id.framLayout_list_mail, listMailFragment);
 
-        } else transaction.show(listMailFragment);
+            } //else transaction.show(listMailFragment);
+
+        }else {
+            if (listMailFragment == null ) {
+                listMailFragment = new ListMailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(TABLET, "TABLET");
+                listMailFragment.setArguments(bundle);
+
+                transaction.add(R.id.framLayout_list_mail, listMailFragment);
+
+            } //else transaction.show(listMailFragment);
+
+            if (mAddMailFragment == null && mDetailMeetingFragment==null) {
+
+                mAddMailFragment = new AddMailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(TABLET, "TABLET");
+               mAddMailFragment.setArguments(bundle);
+
+                transaction.add(R.id.framLayout_add_or_detail, mAddMailFragment);
+
+
+            }//else transaction.show(mAddMailFragment);
+
+        }
+
         //give your fragment container id in first parameter
-        transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+        //transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+        //transaction.addToBackStack(null);
         transaction.commit();
-        Log.d("TAG", "onClick: fragment lancer");
+         //else transaction.show(mAddMailFragment);
+        //give your fragment container id in first parameter
+        // transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
+        //transaction.commit();
     }
     void showFragmentDetailsMeetingOrAddMeetingFragment() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-       mAddMailFragment = (AddMailFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.framLayout_add_or_detail);
 
-       mDetailMeetingFragment = (DetailMeetingFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.framLayout_add_or_detail);
 
-        if (mAddMailFragment == null && findViewById(R.id.framLayout_add_or_detail) !=null) {
-            mAddMailFragment = new AddMailFragment();
+      // mDetailMeetingFragment = (DetailMeetingFragment) getSupportFragmentManager()
+        //        .findFragmentById(R.id.framLayout_add_or_detail);
 
-            transaction.add(R.id.framLayout_add_or_detail, mAddMailFragment);
 
-        } //else transaction.show(mAddMailFragment);
-        //give your fragment container id in first parameter
-       // transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
-        transaction.commit();
 
     }
     /*
@@ -130,4 +166,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void OnButtonAddReunionClick(View view) {
+       // if ( mTablet != "TABLET") {
+           // showFragmentListMail();
+        Intent MainActivity = new Intent(view.getContext(), MainActivity.class);
+        startActivity(MainActivity);
+            Log.e("TAG", "OnButtonAddReunionClick: MainActivity; Callback reussi!!!");
+            //finish();
+      //  }
+    }
 }

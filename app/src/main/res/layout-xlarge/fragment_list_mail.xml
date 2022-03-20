@@ -26,20 +26,7 @@
             tools:listitem="@layout/list_mail_item">
 
         </androidx.recyclerview.widget.RecyclerView>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButtonAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="36dp"
-            android:layout_marginBottom="44dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/white"
-            app:backgroundTint="@color/red"
-            app:srcCompat="@android:drawable/ic_input_add"
 
-            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

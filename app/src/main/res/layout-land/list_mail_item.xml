@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView_cercle"
         android:layout_width="62dp"
         android:layout_height="56dp"
         android:layout_marginStart="4dp"
@@ -24,9 +24,9 @@
         android:layout_marginTop="28dp"
         android:text="Sujet - 14h00 - Place"
         android:textColor="@color/black"
-        android:textSize="@dimen/size_text_land_sujet_time_place"
+        android:textSize="@dimen/size_text_land_tablet_sujet_time_place"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageView_cercle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -48,9 +48,10 @@
         android:layout_height="30dp"
         android:layout_marginTop="12dp"
         android:gravity="top"
-
+        android:ellipsize="marquee"
+        android:singleLine="true"
         android:text="Participant name"
-        android:textSize="@dimen/size_text_land_mail_participant"
+        android:textSize="@dimen/size_text_land_tablet_mail_participant"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
