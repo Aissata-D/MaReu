@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#C5C7C4"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.ListMeetingActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_weight="50"
@@ -17,7 +17,7 @@
 
 
     <FrameLayout
-        android:id="@+id/framLayout_list_mail"
+        android:id="@+id/framLayout_list_meeting"
         android:layout_weight="50"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

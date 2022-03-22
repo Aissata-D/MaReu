@@ -17,7 +17,6 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,7 +31,6 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -54,9 +52,9 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @RunWith(AndroidJUnit4.class)
 public class AllActivityInstrumentedTest {
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<ListMeetingActivity> mActivityTestRule = new ActivityTestRule<>(ListMeetingActivity.class);
     MeetingApiServiceInterface service;
-    private MainActivity mActivity;
+    private ListMeetingActivity mActivity;
 
     // Class add by espresso record
     private static Matcher<View> childAtPosition(
@@ -193,7 +191,7 @@ public class AllActivityInstrumentedTest {
                         childAtPosition(
                                 allOf(withId(R.id.add_mail_fragment),
                                         childAtPosition(
-                                                withId(R.id.framLayout_add_mail),
+                                                withId(R.id.framLayout_add_meeting),
                                                 0)),
                                 0),
                         isDisplayed()));
@@ -212,7 +210,7 @@ public class AllActivityInstrumentedTest {
                         childAtPosition(
                                 allOf(withId(R.id.add_mail_fragment),
                                         childAtPosition(
-                                                withId(R.id.framLayout_add_mail),
+                                                withId(R.id.framLayout_add_meeting),
                                                 0)),
                                 5),
                         isDisplayed()));
@@ -382,13 +380,12 @@ public class AllActivityInstrumentedTest {
                 allOf(withId(R.id.all_text), withText("Sujet 1 - 15h10 - Salle 1"),
                         withParent(withParent(withId(R.id.recyclerview))),
                         isDisplayed()));
-      //  textView.check(matches(withText("Sujet 1 - 15h10 - Salle 1")));
+        //  textView.check(matches(withText("Sujet 1 - 15h10 - Salle 1")));
+        // When perform a click on a delete icon
+        onView(CoreMatchers.allOf(ViewMatchers.withId(R.id.recyclerview), isDisplayed()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new DeleteViewAction()));
 
-        ViewInteraction appCompatImageView = onView(
-                allOf(withId(R.id.delete_button),isDisplayed(),
-                       childAtPosition( withId(R.id.recyclerview), 0),  isDisplayed()));
-        appCompatImageView.perform(click());
-
+        //Verifie that view is delete
         ViewInteraction textView1 = onView(
                 allOf(withId(R.id.all_text), withText("Sujet 1 - 15h10 - Salle 1"),
                         withParent(withParent(withId(R.id.recyclerview))),

@@ -3,7 +3,6 @@ package fr.sitadigi.mareu.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-//import android.app.Fragment;
 import androidx.fragment.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +18,6 @@ import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,12 +40,11 @@ import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListMailFragment#newInstance} factory method to
+ * Use the {@link ListMeetingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListMailFragment extends Fragment {
+public class ListMeetingFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TABLET = "TABLET";
@@ -59,12 +56,9 @@ public class ListMailFragment extends Fragment {
     ReunionRecyclerViewAdapter reunionRecyclerViewAdapter;
     Calendar date = new GregorianCalendar();
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private List<Room> mRooms;
     private String mTablet;
-
-    public ListMailFragment() {
+    public ListMeetingFragment() {
         // Required empty public constructor
     }
 
@@ -72,11 +66,11 @@ public class ListMailFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment ListMailFragment.
+     * @return A new instance of fragment ListMeetingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListMailFragment newInstance() {
-        ListMailFragment fragment = new ListMailFragment();
+    public static ListMeetingFragment newInstance() {
+        ListMeetingFragment fragment = new ListMeetingFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -93,37 +87,28 @@ public class ListMailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_mail, container, false);
         mRecyclerView = view.findViewById(R.id.recyclerview);
-
         //Display menu in fragment
         setHasOptionsMenu(true);
-        // Inflate the layout for this fragment
+        //Initialise Recyclerview
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mApiServiceInterface = Injection.getService();
         sMeetingLists = mApiServiceInterface.getMeeting();
-
         initRecyclerView();
     if ( mTablet != "TABLET") {
-    MainBtnAdd = view.findViewById(R.id.floatingActionButtonAdd);
-    MainBtnAdd.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            //REPLACE FRAGMENT
-            //AddMailFragment.newInstance();
-               /* AddMailFragment addMailFragment = new AddMailFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_list_mail, addMailFragment ); //give your fragment container id in first parameter
-                transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
-                transaction.commit();
-                Log.d("TAG", "onClick: fragment lancer");*/
-            Intent addMailActivity = new Intent(view.getContext(), AddMailActivity.class);
-            startActivity(addMailActivity);
-        }
-    });
-}
+            MainBtnAdd = view.findViewById(R.id.floatingActionButtonAdd);
+            MainBtnAdd.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                Intent addMailActivity = new Intent(view.getContext(), AddMeetingActivity.class);
+                startActivity(addMailActivity);
+            }
+        });
+    }
         return view;
     }
 
@@ -163,7 +148,6 @@ public class ListMailFragment extends Fragment {
         List<Meeting> mListReset = mApiServiceInterface.getMeeting();
         reunionRecyclerViewAdapter = new ReunionRecyclerViewAdapter((FragmentActivity) this.getActivity(), mListReset,mTablet);
         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
-        //
     }
 
     private void filterByDate() {
@@ -173,24 +157,19 @@ public class ListMailFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 date = new GregorianCalendar(year, monthOfYear, dayOfMonth);
-                //date.set(year, monthOfYear, dayOfMonth);
                 Log.e("TAG", "The choosen one Date " + date.getTime());
                 //SET RECYCLERVIEW
                 mApiServiceInterface = Injection.getService();
-                List<Meeting> mListFilterByDate = mApiServiceInterface.filterByStartDay(date);
+               // List<Meeting> mListFilterByDate = mApiServiceInterface.filterByStartDay(date);
                 reunionRecyclerViewAdapter =
                         new ReunionRecyclerViewAdapter((FragmentActivity) getActivity(), mApiServiceInterface.filterByStartDay(date),mTablet);
                 mRecyclerView.setAdapter(reunionRecyclerViewAdapter);
             }
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
-
-        Log.e("TAG", "filterByDate: date " + date.getTime());
-        Log.e("TAG", "filterByDate:currentDate " + currentDate.getTime());
     }
 
     private void showAlertDialogFilterByRoom() {
         final String SELECT_ROOM = "Select Room";
-
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this.getActivity());
         mApiServiceInterface = Injection.getService();
         mRooms = mApiServiceInterface.getRoom();
@@ -198,9 +177,7 @@ public class ListMailFragment extends Fragment {
             mApiServiceInterface.removeRoom(mRooms.get(0));
         }
 
-
         alertDialog.setTitle("Select room");
-
         String[] items = {mRooms.get(0).getNameRoom(), mRooms.get(1).getNameRoom(), mRooms.get(2).getNameRoom(),
                 mRooms.get(3).getNameRoom(), mRooms.get(4).getNameRoom(), mRooms.get(5).getNameRoom(),
                 mRooms.get(6).getNameRoom(), mRooms.get(7).getNameRoom(), mRooms.get(8).getNameRoom(), mRooms.get(9).getNameRoom()};
@@ -303,7 +280,4 @@ public class ListMailFragment extends Fragment {
         mApiServiceInterface.removeMeeting(event.mMeeting);
         initRecyclerView();
     }
-
-
-
 }

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.ListMeetingActivity">
 
     <FrameLayout
-        android:id="@+id/framLayout_list_mail"
+        android:id="@+id/framLayout_list_meeting"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

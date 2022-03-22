@@ -1,9 +1,5 @@
 package fr.sitadigi.mareu.ui;
 
-
-//import android.app.FragmentManager;
-//import android.app.FragmentTransaction;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -34,10 +30,6 @@ import fr.sitadigi.mareu.events.DeleteMeetingEvent;
 import fr.sitadigi.mareu.model.Meeting;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
-//import androidx.fragment.app.FragmentManager;
-//import androidx.fragment.app.FragmentManager;
-//import androidx.fragment.app.FragmentTransaction;
-
 public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecyclerViewAdapter.ViewHolder> {
     MeetingApiServiceInterface mApiServiceInterface;
 
@@ -46,13 +38,14 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
     FragmentActivity mFragmentActivity;
     final String POSITION = "POSITION";
     public String mTablet= "";
+    public final String TABLET= "TABLET";
+    public final String PHONE= "PHONE";
+    public final String CONFIG = "CONFIG";
     DetailMeetingFragment detailMeetingFragment ;
     Drawable circleRandom;
     int[] RandomTab= {R.drawable.circle, R.drawable.circle1
             ,R.drawable.circle2, R.drawable.circle3};
     final Random rand = new Random();
-
-
 
     public ReunionRecyclerViewAdapter(FragmentActivity fragmentActivity, List<Meeting> meetings, String tablet) {
         this.mMeetings = meetings;
@@ -67,26 +60,16 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         int RandomCircle = rand.nextInt(RandomTab.length);
         circleRandom= view.getResources().getDrawable(RandomTab[RandomCircle]);
 
-      //  mFramelayoutListeMeeting = view.findViewById(R.id.framLayout_list_mail);
-        //mFramelayoutAddOrDetail= view.findViewById(R.id.framLayout_add_or_detail);
-       // findViewById(R.id.framLayout_add_or_detail)
-
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mApiServiceInterface = Injection.getService();
-        // mPosition = position;
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        //Get Meeting
-        //  mMeetings = mApiServiceInterface.getMeeting();
-        //+ " - " + dateFormat.format(meeting.getStartDate1().getTime())
-
         Meeting meeting = mMeetings.get(position);
         int hour = meeting.getStartDate1().get(Calendar.HOUR_OF_DAY);
         int minute = meeting.getStartDate1().get(Calendar.MINUTE);
-
         String allText = meeting.getSubject()
                 + " - " + hour + "h" + minute + " - " + meeting.getRoom().getNameRoom();
         holder.mTextReunion.setText(allText);
@@ -98,10 +81,8 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
             if (i == 0) {
                 lisParticipantGlobal = lisParticipant;
             } else lisParticipantGlobal = lisParticipantGlobal + " , " + lisParticipant;
-
         }
         holder.mAllMail.setText(lisParticipantGlobal);
-
         holder.mCircle.setImageDrawable(circleRandom);
         holder.mBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,30 +95,10 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //FAIRE UN CALLBACK ?????
 
-
-
-                // Start detailMeetingFragment
-  //              detailMeetingFragment = (DetailMeetingFragment) mFragmentActivity.getSupportFragmentManager()
-//                        .findFragmentById(R.id.framLayout_list_mail);
                 FragmentManager fragmentManager = mFragmentActivity.getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-              /*   /// test
-
-                Bundle bundle = new Bundle();
-                bundle.putInt(POSITION, mPosition);
-                detailMeetingFragment = new DetailMeetingFragment();
-
-                detailMeetingFragment.setArguments(bundle);
-                transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment);
-
-                transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
-                transaction.commit();
-                //fin
-                */
-                //if written, this transaction will be added to backstack
                 if ( mTablet!= "TABLET"){
                     mPosition = holder.getAdapterPosition();
                     if (detailMeetingFragment == null ) {
@@ -145,26 +106,25 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
                         // Put Meeting position in a detailMeetingFragment
                         Bundle bundle = new Bundle();
                         bundle.putInt(POSITION, mPosition);
+                        bundle.putString(CONFIG,PHONE);
                         detailMeetingFragment.setArguments(bundle);
-                        transaction.replace(R.id.framLayout_list_mail, detailMeetingFragment);
+                        transaction.replace(R.id.framLayout_list_meeting, detailMeetingFragment);
                     }//give your fragment container id in first parameter
-                   // else {transaction.show(detailMeetingFragment);}
+                    else {transaction.show(detailMeetingFragment);}
 
                 }else if(mTablet== "TABLET"){
                     mPosition = holder.getAdapterPosition();
-
-                    //if (detailMeetingFragment == null) {
                         detailMeetingFragment = new DetailMeetingFragment();
                         // Put Meeting position in a detailMeetingFragment
                         Bundle bundle = new Bundle();
                         bundle.putInt(POSITION, mPosition);
+                    bundle.putString(CONFIG,TABLET);
                         detailMeetingFragment.setArguments(bundle);
                         transaction.replace(R.id.framLayout_add_or_detail, detailMeetingFragment);
-                    //}else {transaction.show(detailMeetingFragment);}
-                }
-                transaction.addToBackStack(null);  //if written, this transaction will be added to backstack
-                transaction.commit();
+                    }else {transaction.show(detailMeetingFragment);}
 
+                transaction.addToBackStack("detailMeetingFragment");  //if written, this transaction will be added to backstack
+                transaction.commit();
             }
         });
 
@@ -183,8 +143,6 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         MaterialTextView mAllMail;
         ImageView mBtnDelete;
         ImageView mCircle;
-       // FrameLayout mFramelayoutListeMeeting;
-        //FrameLayout mFramelayoutAddOrDetail;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -194,12 +152,6 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
             mAllMail = itemView.findViewById(R.id.meetting_all_email_item);
             mBtnDelete = itemView.findViewById(R.id.delete_button);
             mCircle = itemView.findViewById(R.id.imageView_cercle);
-           // mFramelayoutListeMeeting = itemView.findViewById(R.id.framLayout_list_mail);
-            //mFramelayoutAddOrDetail= itemView.findViewById(R.id.framLayout_add_or_detail);
-
-
         }
     }
-
-
 }

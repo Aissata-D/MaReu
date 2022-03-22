@@ -1,11 +1,14 @@
 package fr.sitadigi.mareu.ui;
 
-//import android.app.Fragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -17,7 +20,6 @@ import fr.sitadigi.mareu.model.Meeting;
 import fr.sitadigi.mareu.model.Participant;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
-//import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +29,10 @@ import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 public class DetailMeetingFragment extends Fragment {
     final String POSITION = "POSITION";
     private int mPosition = 1;
+    private  String mConfig;
+    public final String TABLET= "TABLET";
+    public final String PHONE= "PHONE";
+    public final String CONFIG = "CONFIG";
     MeetingApiServiceInterface mApiServiceInterface;
     private List<Meeting> mMeetingLists;
 
@@ -35,15 +41,9 @@ public class DetailMeetingFragment extends Fragment {
     TextView mStartDate;
     TextView mEndDate;
     TextView mParticipant;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ImageView mBtnBack;
+    private AddMeetingFragment mAddMeetingFragment;
+    private  DetailMeetingFragment mDetailMeetingFragment;
 
 
     public DetailMeetingFragment() {
@@ -60,8 +60,6 @@ public class DetailMeetingFragment extends Fragment {
     public static DetailMeetingFragment newInstance() {
         DetailMeetingFragment fragment = new DetailMeetingFragment();
         Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,7 +67,6 @@ public class DetailMeetingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -79,6 +76,7 @@ public class DetailMeetingFragment extends Fragment {
         // Get position of meeting
         if (getArguments() != null) {
             mPosition = getArguments().getInt(POSITION);
+            mConfig= getArguments().getString(CONFIG);
         }
         mApiServiceInterface = Injection.getService();
         mMeetingLists = mApiServiceInterface.getMeeting();
@@ -87,7 +85,14 @@ public class DetailMeetingFragment extends Fragment {
         mStartDate = view.findViewById(R.id.heure_debut_detail);
         mEndDate = view.findViewById(R.id.heure_fin_detail);
         mParticipant = view.findViewById(R.id.liste_participant_details);
+        mBtnBack = view.findViewById(R.id.details_button_back);
         // setTex view
+        setTextViews();
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    public  void setTextViews(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy HH:mm");
         String subject = "Sujet de la réunion : " + mMeetingLists.get(mPosition).getSubject();
         mSubject.setText(subject);
@@ -102,7 +107,7 @@ public class DetailMeetingFragment extends Fragment {
         mEndDate.setText(endDate);
         List<Participant> participants = mMeetingLists.get(mPosition).getParticipants();
         String nameParticipant = "";
-        String nameParticipantGlobal = "Noms des participants : \n";
+        String nameParticipantGlobal = "Noms des participants : ";
         for (Participant p : participants) {
             nameParticipant = p.getNameParticipant();
             // nameParticipantGlobal = nameParticipant;
@@ -110,7 +115,32 @@ public class DetailMeetingFragment extends Fragment {
 
         }
         mParticipant.setText(nameParticipantGlobal);
-        // Inflate the layout for this fragment
-        return view;
+        //Clic button to close detailFragment
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mConfig==TABLET){
+                    Log.e("TAG", "onClick: BTNbackpress TABLET");
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment= getActivity().getSupportFragmentManager()
+                            .findFragmentById(R.id.framLayout_add_or_detail);
+                    if(fragment instanceof AddMeetingFragment) {
+                        mAddMeetingFragment = (AddMeetingFragment) fragment;
+                    }else {
+                        mDetailMeetingFragment = (DetailMeetingFragment)fragment;
+                    }
+                    if (mAddMeetingFragment == null ) {
+
+                        mAddMeetingFragment = new AddMeetingFragment();
+                        transaction.replace(R.id.framLayout_add_or_detail, mAddMeetingFragment); //give your fragment container id in first parameter
+                        transaction.commit();
+                    }
+
+                }else if(mConfig==PHONE){
+                    Log.e("TAG", "onClick: BTNbackpress PHONE");
+                    getActivity().onBackPressed();
+                }
+            }
+        });
     }
 }

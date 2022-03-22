@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddMailActivity">
+    tools:context=".ui.AddMeetingActivity">
 
     <FrameLayout
-        android:id="@+id/framLayout_add_mail"
+        android:id="@+id/framLayout_add_meeting"
         android:name="fr.sitadigi.mareu.ui.ListMailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

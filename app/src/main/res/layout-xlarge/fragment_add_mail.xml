@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     android:padding="8dp"
-    tools:context=".ui.AddMailFragment">
+    tools:context=".ui.AddMeetingFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
