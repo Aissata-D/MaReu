@@ -12,14 +12,12 @@ import fr.sitadigi.mareu.model.Room;
 
 public class MeetingApiServiceImplementation implements MeetingApiServiceInterface {
 
+    final String SELECT_DURATION = "Select Duration";
+    final String SELECT_ROOM = "Select Room";
     public List<Meeting> mMeetings = MeetingGenerator.generatorReunion();
     List<Participant> mailsParticipants = MeetingGenerator.generatorMailsParticipants();
     List<Room> mRooms = MeetingGenerator.generatorRoom();
     List<String> mDurations = MeetingGenerator.generatoDuration();
-    final String SELECT_DURATION = "Select Duration";
-    final String SELECT_ROOM = "Select Room";
-    Calendar startDate = Calendar.getInstance();
-    Calendar endDate = Calendar.getInstance();
 
     //Method for Meeting
     @Override
@@ -89,7 +87,6 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
 
         List<Meeting> filterByStartDayList = new ArrayList<>();
         Calendar cal1 = new GregorianCalendar();
-        //dateFormat.format(meeting.getEndDate1().getTime())
         cal1.setTime(startedDate.getTime());
         for (Meeting meeting : mMeetings) {
             Calendar cal2 = new GregorianCalendar();
@@ -105,11 +102,6 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
         return filterByStartDayList;
     }
 
-  /*  @Override
-    public List<Meeting> resetMeetingList() {
-        return mMeetings;
-    }*/
-
     @Override
     public List<String> getDuration() {
         return mDurations;
@@ -124,9 +116,10 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
 
     @Override
     public void addInitialTextRoom() {
-        Room roomInitialText = new Room(0,SELECT_ROOM);
-        if (!mRooms.contains(roomInitialText)){
-        mRooms.add(0, roomInitialText);}
+        Room roomInitialText = new Room(0, SELECT_ROOM);
+        if (!mRooms.contains(roomInitialText)) {
+            mRooms.add(0, roomInitialText);
+        }
 
     }
 
@@ -156,12 +149,5 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
         }
         return availableRooms;
     }
-
-    /*@Override
-    public Calendar setCalendar(int Year, int Month, int Day, int Hour, int Minute) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Year, Month, Day, Hour, Minute);
-        return cal;
-
-    }*/
+    
 }

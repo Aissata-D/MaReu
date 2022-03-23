@@ -33,7 +33,7 @@ import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecyclerViewAdapter.ViewHolder> {
     MeetingApiServiceInterface mApiServiceInterface;
 
-    List<Meeting> mMeetings = new ArrayList<>();
+    List<Meeting> mMeetings ;
     private int mPosition =2;
     FragmentActivity mFragmentActivity;
     final String POSITION = "POSITION";
@@ -73,7 +73,7 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         String allText = meeting.getSubject()
                 + " - " + hour + "h" + minute + " - " + meeting.getRoom().getNameRoom();
         holder.mTextReunion.setText(allText);
-        // afficher la liste des mail participants
+        // show participants od meeting
         String lisParticipant = "";
         String lisParticipantGlobal = lisParticipant;
         for (int i = 0; i < meeting.getParticipants().size(); i++) {
@@ -85,14 +85,15 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         holder.mAllMail.setText(lisParticipantGlobal);
         holder.mCircle.setImageDrawable(circleRandom);
         holder.mBtnDelete.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                //mApiServiceInterface.removeReunion(meeting);
                 EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
             }
         });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -127,7 +128,6 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
                 transaction.commit();
             }
         });
-
     }
 
     @Override

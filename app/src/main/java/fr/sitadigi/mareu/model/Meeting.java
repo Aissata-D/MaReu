@@ -15,17 +15,6 @@ public class Meeting {
     String subject;
     List<Participant> participants;
 
-   /* public Meeting(int id, Date startDate, Date endDate, Room room, String subject,
-                   List<Participant> participants) {
-
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.room = room;
-        this.subject = subject;
-        this.participants = participants;
-    }*/
-
     public Meeting(int id,
                    Calendar startDate1, Calendar endDate1, Room room, String subject,
                    List<Participant> participants1) {
@@ -67,23 +56,6 @@ public class Meeting {
         this.id = id;
     }
 
-    /*
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
-
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
-        }
-    */
     public Room getRoom() {
         return room;
     }

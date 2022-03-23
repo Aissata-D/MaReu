@@ -27,23 +27,22 @@ import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
  * create an instance of this fragment.
  */
 public class DetailMeetingFragment extends Fragment {
-    final String POSITION = "POSITION";
-    private int mPosition = 1;
-    private  String mConfig;
-    public final String TABLET= "TABLET";
-    public final String PHONE= "PHONE";
+    public final String TABLET = "TABLET";
+    public final String PHONE = "PHONE";
     public final String CONFIG = "CONFIG";
+    final String POSITION = "POSITION";
     MeetingApiServiceInterface mApiServiceInterface;
-    private List<Meeting> mMeetingLists;
-
     TextView mSubject;
     TextView mRoom;
     TextView mStartDate;
     TextView mEndDate;
     TextView mParticipant;
     ImageView mBtnBack;
+    private int mPosition = 1;
+    private String mConfig;
+    private List<Meeting> mMeetingLists;
     private AddMeetingFragment mAddMeetingFragment;
-    private  DetailMeetingFragment mDetailMeetingFragment;
+    private DetailMeetingFragment mDetailMeetingFragment;
 
 
     public DetailMeetingFragment() {
@@ -76,7 +75,7 @@ public class DetailMeetingFragment extends Fragment {
         // Get position of meeting
         if (getArguments() != null) {
             mPosition = getArguments().getInt(POSITION);
-            mConfig= getArguments().getString(CONFIG);
+            mConfig = getArguments().getString(CONFIG);
         }
         mApiServiceInterface = Injection.getService();
         mMeetingLists = mApiServiceInterface.getMeeting();
@@ -92,7 +91,7 @@ public class DetailMeetingFragment extends Fragment {
         return view;
     }
 
-    public  void setTextViews(){
+    public void setTextViews() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy HH:mm");
         String subject = "Sujet de la réunion : " + mMeetingLists.get(mPosition).getSubject();
         mSubject.setText(subject);
@@ -109,7 +108,6 @@ public class DetailMeetingFragment extends Fragment {
         String nameParticipantGlobal = "Noms des participants : ";
         for (Participant p : participants) {
             nameParticipant = p.getNameParticipant();
-            // nameParticipantGlobal = nameParticipant;
             nameParticipantGlobal = nameParticipantGlobal + "\n" + nameParticipant;
 
         }
@@ -118,25 +116,23 @@ public class DetailMeetingFragment extends Fragment {
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mConfig==TABLET){
-                    Log.e("TAG", "onClick: BTNbackpress TABLET");
+                if (mConfig == TABLET) {
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment fragment= getActivity().getSupportFragmentManager()
+                    Fragment fragment = getActivity().getSupportFragmentManager()
                             .findFragmentById(R.id.framLayout_add_or_detail);
-                    if(fragment instanceof AddMeetingFragment) {
+                    if (fragment instanceof AddMeetingFragment) {
                         mAddMeetingFragment = (AddMeetingFragment) fragment;
-                    }else {
-                        mDetailMeetingFragment = (DetailMeetingFragment)fragment;
+                    } else {
+                        mDetailMeetingFragment = (DetailMeetingFragment) fragment;
                     }
-                    if (mAddMeetingFragment == null ) {
+                    if (mAddMeetingFragment == null) {
 
                         mAddMeetingFragment = new AddMeetingFragment();
                         transaction.replace(R.id.framLayout_add_or_detail, mAddMeetingFragment); //give your fragment container id in first parameter
                         transaction.commit();
                     }
 
-                }else if(mConfig==PHONE){
-                    Log.e("TAG", "onClick: BTNbackpress PHONE");
+                } else if (mConfig == PHONE) {
                     getActivity().onBackPressed();
                 }
             }

@@ -11,7 +11,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+
 import fr.sitadigi.mareu.R;
 import fr.sitadigi.mareu.di.Injection;
 import fr.sitadigi.mareu.model.Meeting;
@@ -48,17 +51,17 @@ public class AddMeetingFragment extends Fragment {
     MeetingApiServiceInterface mApiServiceInterface;
     Spinner spinnerRoom, spinnerDuration;
     List<Room> mRooms;
+    ShowAlertDialogAddParticipant mShowAlertDialogAddParticipant;
+    SetDurationAndMeetingEndDate mSetDurationAndMeetingEndDate;
     private List<Meeting> mMeetingLists;
     // TODO: Rename and change types of parameters
     private Calendar mCompareDate = new GregorianCalendar();
     private Calendar mCompareStartDate = new GregorianCalendar();
     private Calendar mCompareEndDate = new GregorianCalendar();
     private List<String> mDuration;
-    private Room mRoomSelected ;
+    private Room mRoomSelected;
     private List<Participant> mParticipantSelecteds = new ArrayList<>();
     private String mTablet;
-    ShowAlertDialogAddParticipant mShowAlertDialogAddParticipant;
-    SetDurationAndMeetingEndDate mSetDurationAndMeetingEndDate;
 
 
     public AddMeetingFragment() {
@@ -107,19 +110,19 @@ public class AddMeetingFragment extends Fragment {
             public void onClick(View view) {
                 //Show DatePicker Dialog
                 mShowAlertDialogAddParticipant = new ShowAlertDialogAddParticipant(mParticipantSelecteds
-                        ,mListeParticipant);
+                        , mListeParticipant);
                 mShowAlertDialogAddParticipant.showAlertDialogAddParticipant(getActivity());
             }
         });
 
         //Set meeting duration and his endDate
         mDuration = mApiServiceInterface.getDuration();
-        mSetDurationAndMeetingEndDate =new SetDurationAndMeetingEndDate(mApiServiceInterface
-                ,getActivity(),spinnerDuration,mRooms,spinnerRoom,mStartDate
-                ,mCompareStartDate,mCompareEndDate,mCompareDate
-               ,mDuration,getContext());
+        mSetDurationAndMeetingEndDate = new SetDurationAndMeetingEndDate(mApiServiceInterface
+                , getActivity(), spinnerDuration, mRooms, spinnerRoom, mStartDate
+                , mCompareStartDate, mCompareEndDate, mCompareDate
+                , mDuration, getContext());
         mSetDurationAndMeetingEndDate.spinnerDuration();
-       // call creating a new meeting method
+        // call creating a new meeting method
         createNewMeeting();
         return view;
     }
@@ -128,16 +131,14 @@ public class AddMeetingFragment extends Fragment {
         mApiServiceInterface = Injection.getService();
         mRooms = mApiServiceInterface.getRoom();
         mMeetingLists = mApiServiceInterface.getMeeting();
-
+        // Clic on Button to add a new meeting
         mBtnAddReunion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
                 mRoomSelected = mSetDurationAndMeetingEndDate.getRoomChoice();
                 mMeetingLists = mApiServiceInterface.getMeeting();
                 boolean bSubject = mSubject.getEditText().getText().toString().trim().length() > 0;
-
                 // Verifie that all fields of meeting information is filled
                 if (mRoomSelected != null) {
                     if (mMeetingLists != null && mCompareStartDate != null && mCompareEndDate != null
@@ -173,21 +174,16 @@ public class AddMeetingFragment extends Fragment {
                 inputManager.hideSoftInputFromWindow(binder,
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 //set meeting date and time
-               mSetDurationAndMeetingEndDate.setDateAndHour(mStartDate);
+                mSetDurationAndMeetingEndDate.setDateAndHour(mStartDate);
                 mCompareStartDate = mCompareDate;
                 Log.e("TAG", "onClick: mCompare est " + mCompareDate + " " + mCompareStartDate);
             }
         });
     }
 
-// Define a callback to close fragment and his activity parent
+    // Define a callback to close fragment and his activity parent
     public void createCallbackToParentActivity() {
         mCallback = (onButtonAddReunionListener) getActivity();
-    }
-
-    // interface to use callback
-    public interface onButtonAddReunionListener {
-        void OnButtonAddReunionClick(View view);
     }
 
     @Override
@@ -195,5 +191,10 @@ public class AddMeetingFragment extends Fragment {
         super.onAttach(context);
         // Create a call back
         createCallbackToParentActivity();
+    }
+
+    // interface to use callback
+    public interface onButtonAddReunionListener {
+        void OnButtonAddReunionClick(View view);
     }
 }

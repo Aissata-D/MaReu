@@ -64,7 +64,6 @@ public class ShowAlertDialogAddParticipant {
                     if (checkedInfos[i]) {
                         if (s == null) {
                             s = participant[i];
-                            // mParticipantSelecteds.add(mParticipants.get(i));
                         } else {
                             s += ", " + participant[i];
                         }

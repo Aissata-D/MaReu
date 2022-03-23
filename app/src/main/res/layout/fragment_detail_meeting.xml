@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/meeting_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/meeting_detail"
     tools:context=".ui.DetailMeetingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +22,7 @@
             app:backgroundTint="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/title_detail"
             android:layout_width="394dp"
@@ -30,9 +31,9 @@
             android:backgroundTint="#3F51B5"
             android:gravity="center"
             android:text="DETAILS DE LA REUNION"
-            android:textStyle="bold"
-            android:textSize="25sp"
             android:textColor="@color/red"
+            android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.529"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,9 +59,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
             android:text="salle"
-            android:textStyle="bold"
-            android:textSize="20sp"
             android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sujet_detail" />
@@ -71,9 +72,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
             android:text="heure debut"
-            android:textStyle="bold"
-            android:textSize="20sp"
             android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/salle_detail" />
@@ -84,9 +85,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
             android:text="heure fin"
-            android:textStyle="bold"
-            android:textSize="20sp"
             android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/heure_debut_detail" />

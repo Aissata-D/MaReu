@@ -32,15 +32,12 @@ public interface MeetingApiServiceInterface {
 
     List<Meeting> filterByStartDay(Calendar startedDate);
 
-   // List<Meeting> resetMeetingList();
-
     List<String> getDuration();
 
     void addInitialTextDuration();
-    void addInitialTextRoom();
 
+    void addInitialTextRoom();
 
     List<Room> getAvailableRoom(Calendar startDate, Calendar endDate);
 
-  /*  public Calendar setCalendar(int Year, int Month, int Day, int Hour, int Minute);*/
 }

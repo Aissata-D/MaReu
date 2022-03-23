@@ -21,13 +21,15 @@ public class AddMeetingActivity extends AppCompatActivity implements AddMeetingF
         if (addMeetingFragment == null) {
             addMeetingFragment = new AddMeetingFragment();
             transaction.add(R.id.framLayout_add_meeting, addMeetingFragment); //give your fragment container id in first parameter
-        } else {transaction.show(addMeetingFragment);}
+        } else {
+            transaction.show(addMeetingFragment);
+        }
         transaction.commit();
     }
-// Answer to the callback create in AddMeetingFragment
+
+    // Answer to the callback create in AddMeetingFragment
     @Override
     public void OnButtonAddReunionClick(View view) {
-        Log.e("TAG", "OnButtonAddReunionClick: Callback dans addmeeting!!!");
         finish();
     }
 }

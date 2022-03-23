@@ -26,14 +26,14 @@ import fr.sitadigi.mareu.model.Room;
 import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 
 public class SetDurationAndMeetingEndDate {
-    MeetingApiServiceInterface mApiServiceInterface;
-
     final String SELECT_DURATION = "Select Duration";
+    final String SELECT_ROOM = "Select Room";
+    MeetingApiServiceInterface mApiServiceInterface;
+    boolean isSelectDuration;
     private Activity mActivity;
     private Spinner spinnerDuration;
     private List<Room> mRooms;
     private Spinner spinnerRoom;
-    boolean isSelectDuration;
     private MaterialTextView mStartDate;
     private Calendar mCompareDate = new GregorianCalendar();
     private Calendar mCompareStartDate = new GregorianCalendar();
@@ -41,55 +41,28 @@ public class SetDurationAndMeetingEndDate {
     private String mDurationSelected;
     private List<String> mDuration;
     private Context mContext;
-
-    //---------------------------AVAILABLEROOM6666666666---------------------
-    final String SELECT_ROOM = "Select Room";
-   /* MeetingApiServiceInterface mApiServiceInterface;
-    MaterialTextView mStartDate;
-    private Calendar mCompareDate = new GregorianCalendar();
-    private Calendar mCompareStartDate = new GregorianCalendar();
-    private Calendar mCompareEndDate = new GregorianCalendar();
-    boolean isSelectDuration;
-    List<Room> mRooms;
-    Spinner spinnerRoom;
-    Room mRoomSelected ;
-    Activity mActivity;*/
-    private Room mRoomChoice ;
-
+    private Room mRoomChoice;
 
 
     public SetDurationAndMeetingEndDate(MeetingApiServiceInterface apiServiceInterface
             , Activity activity, Spinner spinnerDuration, List<Room> rooms, Spinner spinnerRoom
-          , MaterialTextView startDate
-            , Calendar compareStartDate, Calendar compareEndDate, Calendar compareDate
-          , List<String> duration, Context context
-
-
-
-    ) {
+            , MaterialTextView startDate, Calendar compareStartDate, Calendar compareEndDate
+            , Calendar compareDate, List<String> duration, Context context) {
 
         mApiServiceInterface = apiServiceInterface;
         mActivity = activity;
         this.spinnerDuration = spinnerDuration;
         mRooms = rooms;
         this.spinnerRoom = spinnerRoom;
-        //this.isSelectDuration = isSelectDuration;
         mStartDate = startDate;
-        //mAvailableRoom = availableRoom;
         mCompareStartDate = compareStartDate;
         mCompareEndDate = compareEndDate;
         mCompareDate = compareDate;
-       // mDurationSelected = durationSelected;
         mDuration = duration;
         mContext = context;
-        //AVAILABLE-------------------
-
-      //  this.isSelectDuration = isSelectDuration;
-        // mRooms = rooms;
-
     }
 
-    public List<Room>  availableRoom() {
+    public List<Room> availableRoom() {
 
         mApiServiceInterface = Injection.getService();
         List<Room> mRoomsGlobal = mApiServiceInterface.getRoom();
@@ -122,9 +95,7 @@ public class SetDurationAndMeetingEndDate {
             }
 
             private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id) {
-                // Adapter adapter = adapterView.getAdapter();
-                mRoomChoice= mRooms.get(position);
-                // mRoomChoice= (Room) adapter.getItem(position);
+                mRoomChoice = mRooms.get(position);
             }
         });
         return mRooms;
@@ -167,13 +138,6 @@ public class SetDurationAndMeetingEndDate {
                         setEndDate();
                     }
                 }
-                //Return available rooms
-                // Room mRoomChoice  = mApiServiceInterface.getRoom().get(0);
-               //TODO
-                /*mAvailableRoom = new AvailableRoom1( mApiServiceInterface,mStartDate,mCompareDate
-                        ,mCompareStartDate,mCompareEndDate,isSelectDuration,spinnerRoom
-                        ,mActivity);
-                mAvailableRoom.availableRoom();*/
                 availableRoom();
 
             }
@@ -188,7 +152,6 @@ public class SetDurationAndMeetingEndDate {
                 String mDuration = (String) adapterDuration.getItem(position);
             }
         });
-        //SPINNER DURATION END -------------------------------------
     }
 
     public String getDurationSelected() {
@@ -250,28 +213,19 @@ public class SetDurationAndMeetingEndDate {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 date.set(year, monthOfYear, dayOfMonth);
-                Log.e("TAG", "The choosen one Date " + date.getTime());
                 int month = monthOfYear;
                 new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         date.set(Calendar.MINUTE, minute);
-                        String time = hourOfDay + " h " + minute;
-                        String date1 = dayOfMonth + " / " + month + " / " + year;
                         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy HH:mm");
                         field.setText(dateFormat.format(date.getTime()));
                         mCompareDate.set(year, month, dayOfMonth, hourOfDay, minute);
-                        Log.e("TAG", "The choosen one mCompareDate " + mCompareDate.getTime());
                         boolean bStartDate = mStartDate.getText().toString().trim().length() > 0;
                         if (bStartDate && mDurationSelected != null) {
                             setEndDate();
                         }
-                        // Return availables rooms
-                        /*mAvailableRoom = new AvailableRoom1( mApiServiceInterface,mStartDate,mCompareDate,mCompareStartDate
-                                ,mCompareEndDate,isSelectDuration,spinnerRoom
-                                ,mActivity);
-                        mAvailableRoom.availableRoom();*/
                         availableRoom();
                     }
                 }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();

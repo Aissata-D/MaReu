@@ -34,10 +34,7 @@ public class MeetingGenerator {
 
 
     );
-    //static  int year;
-    //static int annee = year-1900;
-    //static Date dateDebut = new Date((2022-1900),01,28,14,45);
-    //static Date dateFin = new Date((2022-1900),01,28,15,10);
+
     public static List<Meeting> sMeetings = Arrays.asList(
 
             // new Meeting(1,dateDebut,dateFin, sRooms.get(0), sujet,MAILS_PARTICIPANTS),
@@ -62,11 +59,7 @@ public class MeetingGenerator {
             , "2h45", "3h00", "3h15", "3h30", "3h45", "4h00"
 
     );
-    static Calendar dateDebut1 = Calendar.getInstance();
-    static Calendar dateFin1 = Calendar.getInstance();
-    static Calendar dateDebut2 = Calendar.getInstance();
-    static Calendar dateFin2 = Calendar.getInstance();
-    static Calendar dateDebut3 = Calendar.getInstance();
+
     //Set date
     static Calendar dateFin3 = Calendar.getInstance();
     static String sujet = "Sujet resto";
@@ -88,5 +81,3 @@ public class MeetingGenerator {
         return new ArrayList<>(Duration);
     }
 }
-//public  static Participant mail1 = new Participant("diassana@yahoo") ;
-// public  Meeting reunion1 = new Meeting("paris","sujet-de coonvert",MAILS_PARTICIPANTS);

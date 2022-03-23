@@ -12,7 +12,6 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-
     <Spinner
         android:id="@+id/spinner_room"
         android:layout_width="359dp"
@@ -46,17 +45,17 @@
 
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
         android:id="@+id/meetting_startDateTv"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="202dp"
         android:layout_height="75dp"
         android:layout_marginTop="32dp"
-        android:padding="4dp"
-
         android:gravity="center"
-        android:textSize="@dimen/size_text_mail_participant"
+
         android:hint="Date et heure du debut"
+        android:padding="4dp"
+        android:textSize="@dimen/size_text_mail_participant"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/meetting_subject" />
 
@@ -75,7 +74,6 @@
         app:layout_constraintVertical_bias="0.0" />
 
 
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/list_participant"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -84,26 +82,26 @@
         android:layout_marginTop="32dp"
         android:gravity="center"
         android:hint="Name of participant"
-        android:textSize="@dimen/size_text_mail_participant"
         android:padding="8dp"
+        android:textSize="@dimen/size_text_mail_participant"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_participant" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_add_participant"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="65dp"
         android:layout_marginTop="32dp"
         android:gravity="center"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-        android:textSize="@dimen/size_text_mail_participant"
         android:hint="Select participants"
+        android:textSize="@dimen/size_text_mail_participant"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_room"/>
+        app:layout_constraintTop_toBottomOf="@+id/spinner_room" />
 
     <Button
         android:id="@+id/add_reunion"

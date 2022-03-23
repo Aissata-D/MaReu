@@ -1,7 +1,7 @@
 package fr.sitadigi.mareu.ui;
 
 import android.app.DatePickerDialog;
-//import android.app.FragmentTransaction;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
-//import androidx.fragment.app.FragmentTransaction;
 
 import java.util.List;
 
@@ -24,14 +23,7 @@ import fr.sitadigi.mareu.service.MeetingApiServiceInterface;
 public class ListMeetingActivity extends AppCompatActivity implements AddMeetingFragment.onButtonAddReunionListener {
 
     private static final String TABLET = "TABLET";
-    DatePickerDialog.OnDateSetListener setListener;
-    MeetingApiServiceInterface mApiServiceInterface;
-    Spinner spinnerRoom;
     ListMeetingFragment listMeetingFragment;
-    private List<Room> mRooms;
-    private List<Meeting> mMeetingListSelected;
-    private Room mRoomSelected;
-    private ListMeetingFragment mListMeetingFragment;
     private AddMeetingFragment mAddMeetingFragment;
     private DetailMeetingFragment mDetailMeetingFragment;
 
@@ -46,7 +38,7 @@ public class ListMeetingActivity extends AppCompatActivity implements AddMeeting
     void showFragmentListMeetingOrAddMeetingOrDetailMeeting() {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//Initialise fragment to get framLayout_add_or_detail according Fragment displayed
+        //Initialise fragment to get framLayout_add_or_detail according Fragment displayed
         Fragment fragment = getSupportFragmentManager()
                 .findFragmentById(R.id.framLayout_add_or_detail);
         if (fragment instanceof AddMeetingFragment) {
@@ -54,7 +46,7 @@ public class ListMeetingActivity extends AppCompatActivity implements AddMeeting
         } else {
             mDetailMeetingFragment = (DetailMeetingFragment) fragment;
         }
-// Initialise fragment to get framLayout_list_meeting according Fragment displayed
+        // Initialise fragment to get framLayout_list_meeting according Fragment displayed
         Fragment fragment1 = getSupportFragmentManager()
                 .findFragmentById(R.id.framLayout_list_meeting);
         if (fragment1 instanceof ListMeetingFragment) {
@@ -95,7 +87,5 @@ public class ListMeetingActivity extends AppCompatActivity implements AddMeeting
     public void OnButtonAddReunionClick(View view) {
         Intent ListMeetingActivity = new Intent(view.getContext(), ListMeetingActivity.class);
         startActivity(ListMeetingActivity);
-        Log.e("TAG", "OnButtonAddReunionClick: Callback dans listmeeting!!!");
-
     }
 }
