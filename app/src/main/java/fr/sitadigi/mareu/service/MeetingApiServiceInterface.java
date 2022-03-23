@@ -12,7 +12,7 @@ public interface MeetingApiServiceInterface {
 
     List<Meeting> getMeeting();
 
-    List<Participant> getMailsParticipant();
+    List<Participant> getMeetingParticipant();
 
     List<Room> getRoom();
 

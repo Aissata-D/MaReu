@@ -40,7 +40,7 @@ public class MeetingApiServiceImplementation implements MeetingApiServiceInterfa
 
     //Method for Participants
     @Override
-    public List<Participant> getMailsParticipant() {
+    public List<Participant> getMeetingParticipant() {
         return mailsParticipants;
     }
 

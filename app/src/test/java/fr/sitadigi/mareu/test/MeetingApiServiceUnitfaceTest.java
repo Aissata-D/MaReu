@@ -41,8 +41,8 @@ public class MeetingApiServiceUnitfaceTest {
 
     @Test
     public void getMailsParticipant() {
-        List<Participant> participants = MeetingGenerator.MAILS_PARTICIPANTS;
-        assertEquals(participants, service.getMailsParticipant());
+        List<Participant> participants = MeetingGenerator.MEETING_PARTICIPANTS;
+        assertEquals(participants, service.getMeetingParticipant());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class MeetingApiServiceUnitfaceTest {
         dateDebut1.set(2023, 01, 28, 15, 10);
         dateFin1.set(2023, 01, 28, 15, 45);
         Room room1 = new Room(1, "Salle test");
-        List<Participant> participant = service.getMailsParticipant();
+        List<Participant> participant = service.getMeetingParticipant();
         Meeting meeting = new Meeting(1, dateDebut1, dateFin1, room1, "Sujet 1"
                 , participant);
         service.addMeeting(meeting);
@@ -79,12 +79,12 @@ public class MeetingApiServiceUnitfaceTest {
         Participant participant1 = new Participant(1, "Jeanne", "jeanne@gmail.com");
 
         service.addMailParticipant(participant1);
-        assertTrue(service.getMailsParticipant().contains(participant1));
+        assertTrue(service.getMeetingParticipant().contains(participant1));
     }
 
     @Test
     public void removeMailParticipant() {
-        Participant participant = service.getMailsParticipant().get(0);
+        Participant participant = service.getMeetingParticipant().get(0);
         service.removeMailParticipant(participant);
         assertFalse(service.getMeeting().contains(participant));
     }

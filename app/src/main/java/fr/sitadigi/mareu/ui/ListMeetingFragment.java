@@ -113,7 +113,7 @@ public class ListMeetingFragment extends Fragment {
     }
 
     public void initRecyclerView() {
-        mMailLists = mApiServiceInterface.getMailsParticipant();
+        mMailLists = mApiServiceInterface.getMeetingParticipant();
         ReunionRecyclerViewAdapter reunionRecyclerViewAdapter =
                 new ReunionRecyclerViewAdapter((FragmentActivity) this.getActivity(), sMeetingLists,mTablet);
         mRecyclerView.setAdapter(reunionRecyclerViewAdapter);

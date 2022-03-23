@@ -26,7 +26,7 @@ public class MeetingGenerator {
     );
 
 
-    public static List<Participant> MAILS_PARTICIPANTS = Arrays.asList(
+    public static List<Participant> MEETING_PARTICIPANTS = Arrays.asList(
             new Participant(1, "Aissata", "aissata@yahoo.fr"),
             new Participant(2, "Alice", "alice@yahoo.fr"),
             new Participant(3, "Jean", "jean@yahoo.fr"),
@@ -42,18 +42,18 @@ public class MeetingGenerator {
 
             // new Meeting(1,dateDebut,dateFin, sRooms.get(0), sujet,MAILS_PARTICIPANTS),
             new Meeting(1, new GregorianCalendar(2022, 1, 28, 15, 10)
-                    , new GregorianCalendar(2022, 1, 28, 15, 45), sRooms.get(0), "Sujet 1", MAILS_PARTICIPANTS),
+                    , new GregorianCalendar(2022, 1, 28, 15, 45), sRooms.get(0), "Sujet 1", MEETING_PARTICIPANTS),
             new Meeting(2, new GregorianCalendar(2022, 2, 28, 16, 25)
-                    , new GregorianCalendar(2022, 2, 28, 18, 50), sRooms.get(1), "Sujet 2", MAILS_PARTICIPANTS),
+                    , new GregorianCalendar(2022, 2, 28, 18, 50), sRooms.get(1), "Sujet 2", MEETING_PARTICIPANTS),
             new Meeting(3, new GregorianCalendar(2022, 3, 28, 17, 20)
-                    , new GregorianCalendar(2022, 3, 28, 18, 5), sRooms.get(2), "Sujet 3", MAILS_PARTICIPANTS),
+                    , new GregorianCalendar(2022, 3, 28, 18, 5), sRooms.get(2), "Sujet 3", MEETING_PARTICIPANTS),
 
             new Meeting(4, new GregorianCalendar(2022, 1, 28, 15, 10)
-                    , new GregorianCalendar(2022, 1, 28, 15, 45), sRooms.get(3), "Sujet 1", MAILS_PARTICIPANTS),
+                    , new GregorianCalendar(2022, 1, 28, 15, 45), sRooms.get(3), "Sujet 1", MEETING_PARTICIPANTS),
             new Meeting(5, new GregorianCalendar(2022, 2, 28, 16, 25)
-                    , new GregorianCalendar(2022, 2, 28, 18, 50), sRooms.get(4), "Sujet 2", MAILS_PARTICIPANTS),
+                    , new GregorianCalendar(2022, 2, 28, 18, 50), sRooms.get(4), "Sujet 2", MEETING_PARTICIPANTS),
             new Meeting(6, new GregorianCalendar(2022, 3, 28, 17, 20)
-                    , new GregorianCalendar(2022, 3, 28, 18, 5), sRooms.get(5), "Sujet 3", MAILS_PARTICIPANTS)
+                    , new GregorianCalendar(2022, 3, 28, 18, 5), sRooms.get(5), "Sujet 3", MEETING_PARTICIPANTS)
 
 
     );
@@ -81,7 +81,7 @@ public class MeetingGenerator {
     }
 
     public static List<Participant> generatorMailsParticipants() {
-        return new ArrayList<>(MAILS_PARTICIPANTS);
+        return new ArrayList<>(MEETING_PARTICIPANTS);
     }
 
     public static List<String> generatoDuration() {

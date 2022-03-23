@@ -98,7 +98,6 @@ public class DetailMeetingFragment extends Fragment {
         mSubject.setText(subject);
         String room = "Salle de la réunion : " + mMeetingLists.get(mPosition).getRoom().getNameRoom();
         mRoom.setText(room);
-
         String startDate = "Heure du debut de la réunion : \n"
                 + dateFormat.format(mMeetingLists.get(mPosition).getStartDate1().getTime());
         mStartDate.setText(startDate);
