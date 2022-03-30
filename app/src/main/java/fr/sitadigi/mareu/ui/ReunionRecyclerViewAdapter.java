@@ -73,7 +73,7 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         String allText = meeting.getSubject()
                 + " - " + hour + "h" + minute + " - " + meeting.getRoom().getNameRoom();
         holder.mTextReunion.setText(allText);
-        // show participants od meeting
+        // show participants of meeting
         String lisParticipant = "";
         String lisParticipantGlobal = lisParticipant;
         for (int i = 0; i < meeting.getParticipants().size(); i++) {
